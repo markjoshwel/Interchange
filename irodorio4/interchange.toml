@@ -1,0 +1,7 @@
+[about]
+project = "irodorio4"
+description = "chunithm controller userspace driver and hal + tuba-like midi instrument"
+platforms = ["library", "desktop"]
+status = "stagnant"
+licence = "0BSD"
+language = "python"

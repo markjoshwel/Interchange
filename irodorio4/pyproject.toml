@@ -1,0 +1,13 @@
+[project]
+name = "mido4"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "hidapi>=0.14.0.post4",
+    "numba>=0.61.0",
+    "pyserial>=3.5",
+    "python-rtmidi>=1.5.8",
+    "rich>=13.9.4",
+]

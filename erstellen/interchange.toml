@@ -1,0 +1,7 @@
+[about]
+project = "erstellen"
+description = "minecraft server runner with on-startup command execution"
+platforms = ["cli"]
+status = "complete"
+licence = "0BSD"
+language = "python"

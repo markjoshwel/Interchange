@@ -1,0 +1,7 @@
+[about]
+project = "zigbpy"
+description = "brainfuck-zig transpiler written in python"
+platforms = "cli"
+status = "active"
+licence = "0BSD"
+language = ["python", "zig"]

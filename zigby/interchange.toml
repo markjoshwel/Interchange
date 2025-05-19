@@ -1,0 +1,7 @@
+[about]
+project = "zigby"
+description = "brainfuck interpreter written in zig"
+platforms = "cli"
+status = "complete"
+licence = "0BSD"
+language = "zig"

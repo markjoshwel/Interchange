@@ -1,38 +1,51 @@
-import hid
-import serial
-from typing import NamedTuple, Sequence
-from sys import stderr
-from rich.console import Console
-from time import sleep
-import threading
 import queue
+import threading
+from math import ceil
+from sys import stderr
+from time import sleep
+from typing import NamedTuple, Sequence
 
+import hid
+import rtmidi
+import serial
+from rich.console import Console
+
+MIDO4_MIDI_NAME = "mido4 Virtual Instrument Output"
+MIDO4_MIDI_CHANNEL = 1
+MIDO4_CONTROLLER_PRESSURE_MIN = 15
+MIDO4_CONTROLLER_PRESSURE_MAX = 200
+MIDO4_OCTAVE_STARTING = 1  # as in, octave one
 
 CHU3_IO4_VID = 0x0CA3  # sega io4 vendor number/id
 CHU3_IO4_PID = 0x0021  # sega io4 product number/id
-
 CHU3_IO4_REPORT_ID = 16  # host -> io4 commands
 CHU3_IO4_AIR_TOWER_IDX_LEFT = 30
 CHU3_IO4_AIR_TOWER_IDX_RIGHT = 32
 CHU3_IO4_CMD_SET_COMMUNICATION_TIMEOUT = 0x01
 CHU3_IO4_CMD_SET_SAMPLING_COUNT = 0x02
 CHU3_IO4_CMD_CLEAR_BOARD_STATUS = 0x03
-CHU3_IO4_CMD_SET_PWM_OUTPUT = 0x04
-CHU3_IO4_CMD_SET_UNIQUE_OUTPUT = 0x41
-CHU3_IO4_SAMPLING_COUNT = 15
+CHU3_IO4_SAMPLING_COUNT = 10
 CHU3_IO4_COMM_TIMEOUT_US = 10  # 2000us = 2ms
 CHU3_IO4_READ_TIMEOUT_MS = 1
-
-# byte  0     : report id (ignored)
-# bytes 1–32  : 32 bytes representing ground (slider/touch) sensor values
-# bytes 33–38 : 6 bytes representing air (tower) sensor values
-# byte  39    : A sensitivity/hardness value for the inputs
-# bytes 40–63 : ignored
 CHU3_RW_PACKET_SIZE_BYTES = 64
 CHU3_SLIDER_SYNC_HEADER = b"\xff\x01"
 CHU4_SLIDER_INPUT_CHUNK_BY_DIVIDER = 1
 CHU3_SLIDER_CMD_LED = 0x02
-CHU3_LED_DATA_SIZE = 32  # 16 ground leds + 15 divider, the last one is ignored
+
+MIDI_OCTAVE_ZERO = 20
+MIDI_OCTAVE_TET = 12
+MIDI_BASE_A = 1
+MIDI_BASE_Bb = 2
+MIDI_BASE_B = 3
+MIDI_BASE_C = 4
+MIDI_BASE_Cs = 5
+MIDI_BASE_D = 6
+MIDI_BASE_Eb = 7
+MIDI_BASE_E = 8
+MIDI_BASE_F = 9
+MIDI_BASE_Fs = 10
+MIDI_BASE_G = 11
+MIDI_BASE_Gs = 12
 
 
 Air6Type = tuple[bool, bool, bool, bool, bool, bool] | Sequence[bool]
@@ -276,7 +289,7 @@ class Chu3Controller:
 
     def set_ground_led_colours(self, colours: Chu3LEDColours) -> None:
         """
-        Set the LED colors for both ground and air sensors.
+        Set the LED colors for the ground slider.
 
         The protocol expects:
         - Byte 0: SLIDER_SYNC (0xFF)
@@ -304,14 +317,13 @@ class Chu3Controller:
                     rgb[1] & 0xFF,  # Green
                     rgb[0] & 0xFF,  # Red
                 ]
-            else:
-                packet.extend(
-                    [
-                        rgb[2] & 0xFF,  # Blue
-                        rgb[1] & 0xFF,  # Green
-                        rgb[0] & 0xFF,  # Red
-                    ]
-                )
+            packet.extend(
+                [
+                    rgb[2] & 0xFF,  # Blue
+                    rgb[1] & 0xFF,  # Green
+                    rgb[0] & 0xFF,  # Red
+                ]
+            )
         if first_packet:
             packet.extend(first_packet)
 
@@ -323,175 +335,88 @@ class Chu3Controller:
         self.device_com.write(packet)
         self.device_com.flush()
 
-    def set_air_led_colours(self, colours: Chu3LEDColours) -> None:
-        """
-        Set the LED colors for air sensors using custom protocol command 0x5B.
-        
-        struct {
-            uint8_t u8Cmd = 0x5B;
-            uint8_t u8GroundBrightness;
-            uint8_t u8TowerBrightness;
-            grb_t aGround[31];
-            grb_t aTowerLeft[24];
-            grb_t aTowerRight[24];
-        }
-
-        The protocol expects:
-        - Byte 0: CMD_CUSTOM_RGB (0x5B)
-        - Byte 1: Ground brightness (0-255)
-        - Byte 2: Air brightness (0-255)
-        - Bytes 3-95: Ground LED RGB values (31 sets of 3 bytes)
-        - Bytes 96-167: Left air tower RGB values (24 sets of 3 bytes)
-        - Bytes 168-239: Right air tower RGB values (24 sets of 3 bytes)
-        """
-        CMD_CUSTOM_RGB = 0x5B
-
-        # Create the packet
-        packet = bytearray([CMD_CUSTOM_RGB])
-
-        # Add brightness values
-        packet.append(0)  # Ground brightness (not used for air)
-        packet.append(colours.air_brightness & 0xFF)
-
-        # Add empty ground data (31 LEDs * 3 bytes)
-        packet.extend([0] * (31 * 3))
-
-        # Add tower data (24 LEDs per tower)
-        for rgb in colours.air24_left:
-            packet.extend(
-                [
-                    rgb[1] & 0xFF,  # Green
-                    rgb[0] & 0xFF,  # Red
-                    rgb[2] & 0xFF,  # Blue
-                ]
-            )
-        
-        for rgb in colours.air24_right:
-            packet.extend(
-                [
-                    rgb[1] & 0xFF,  # Green
-                    rgb[0] & 0xFF,  # Red
-                    rgb[2] & 0xFF,  # Blue
-                ]
-            )
-
-        self.device_hid.write(packet)
-
-    def set_led_colours(self, colours: Chu3LEDColours) -> None:
-        """Set both ground and air LED colors."""
-        self.set_ground_led_colours(colours)
-        self.set_air_led_colours(colours)
-
     def open(
         self,
         nonblocking: bool = True,
         init=True,
-        keep_trying: bool = False,
         ignore_io4_errors: bool = False,
     ) -> None:
-        connected: bool = False
-        connected_com: bool = False
-        connected_hid: bool = False
-        last_exception: Exception = Exception()
+        last_exception: Exception | None = None
 
         try:
-            while not connected:
-                try:
-                    if not connected_com:
-                        self.device_com = serial.Serial(
-                            port="COM1", baudrate=38400, timeout=0.1
-                        )
-                        print(
-                            f"chu3controller.open: com: opened {self.device_com.name} on COM1 ({self.device_com.baudrate} baud)",
-                            file=stderr,
-                        )
-                        connected = True
-                        connected_com = True
-
-                except Exception as e:
-                    print(
-                        f"chu3controller.open: com: {e.__class__.__name__}: {e}",
-                        file=stderr,
-                    )
-                    last_exception = e
-
-                try:
-                    if not connected_hid:
-                        self.device_hid = hid.device()
-                        self.device_hid.open(CHU3_IO4_VID, CHU3_IO4_PID)
-                        connected = True
-                        connected_hid = True
-
-                except Exception as e:
-                    print(
-                        f"chu3controller.open: io4/hid: {e.__class__.__name__}: {e}",
-                        file=stderr,
-                    )
-                    last_exception = e
-
-                if "TASOLLER" in (
-                    product_string := self.device_hid.get_product_string()
-                ) and (not ignore_io4_errors):
-                    self.device_hid.close()
-                    connected_hid = False
-                    connected = False
-
-                    message = f"your controller should be emulating arcade io! not '{product_string}'"
-                    print(
-                        f"chu3controller.open: io4/hid: {message}",
-                        file=stderr,
-                    )
-                    print(
-                        "... a note from the bloodied hands before you:",
-                        "... ... reboot. a few times maybe.",
-                        "... ...",
-                        "... ... and if that's still not working out for ya:",
-                        "... ... have you tried removing all ghost HID devices in device manager?",
-                        "... ... sometimes, windows hates you, and the tasoller may be stuck as",
-                        "... ... 'TASOLLER HID' even if it is not in keyboard mode.",
-                        "... ...",
-                        "... ... try the copy-pasting the following powershell script in an admin",
-                        "... ... powershell window:",
-                        "... ...",
-                        "... ...   # List all ghost HIDClass devices (devices in the HIDClass with an unknown status)",
-                        "... ...   $ghost_hid_devs = Get-PnpDevice -Class HIDClass | Where-Object { $_.Status -eq 'Unknown' }",
-                        "... ...   # Loop through each ghost HID device and remove it using pnputil"
-                        "",
-                        "... ...   foreach ($dev in $ghost_hid_devs) { pnputil /remove-device $dev.InstanceId }",
-                        "... ...",
-                        "... ... finally, do one last reboot.",
-                        "... ... cheers~",
-                        sep="\n",
-                    )
-                    last_exception = ValueError(message)
-
-                if connected:
-                    break
-
-                if keep_trying:
-                    print(
-                        "chu3controller.open: io4/hid: failed to open, retrying in 5s",
-                        file=stderr,
-                    )
-                    sleep(5)
-
-                else:
-                    if connected_com:
-                        self.device_com.close()
-                    if connected_hid:
-                        self.device_hid.close()
-                    raise last_exception
-
-        except KeyboardInterrupt:
-            if connected_com:
-                self.device_com.close()
-            if connected_hid:
-                self.device_hid.close()
+            self.device_com = serial.Serial(port="COM1", baudrate=38400, timeout=0.1)
             print(
-                "chu3controller.open: premature KeyboardInterrupt, closing!",
+                f"chu3controller.open: com: opened {self.device_com.name} on COM1 ({self.device_com.baudrate} baud)",
                 file=stderr,
             )
+            connected = True
+            connected_com = True
+
+        except Exception as e:
+            print(
+                f"chu3controller.open: com: {e.__class__.__name__}: {e}",
+                file=stderr,
+            )
+            last_exception = e
+
+        try:
+            self.device_hid = hid.device()
+            self.device_hid.open(CHU3_IO4_VID, CHU3_IO4_PID)
+            connected = True
+            connected_hid = True
+
+        except Exception as e:
+            print(
+                f"chu3controller.open: io4/hid: {e.__class__.__name__}: {e}",
+                file=stderr,
+            )
+            last_exception = e
+
+        if "TASOLLER" in (product_string := self.device_hid.get_product_string()) and (
+            not ignore_io4_errors
+        ):
+            self.device_hid.close()
+            connected_hid = False
+            connected = False
+
+            message = (
+                f"your controller should be emulating arcade io! not '{product_string}'"
+            )
+            print(
+                f"chu3controller.open: io4/hid: {message}",
+                file=stderr,
+            )
+            print(
+                "... a note from the bloodied hands before you:",
+                "... ... reboot. a few times maybe.",
+                "... ...",
+                "... ... and if that's still not working out for ya:",
+                "... ... have you tried removing all ghost HID devices in device manager?",
+                "... ... sometimes, windows hates you, and the tasoller may be stuck as",
+                "... ... 'TASOLLER HID' even if it is not in keyboard mode.",
+                "... ...",
+                "... ... try the copy-pasting the following powershell script in an admin",
+                "... ... powershell window:",
+                "... ...",
+                "... ...   # List all ghost HIDClass devices (devices in the HIDClass with an unknown status)",
+                "... ...   $ghost_hid_devs = Get-PnpDevice -Class HIDClass | Where-Object { $_.Status -eq 'Unknown' }",
+                "... ...   # Loop through each ghost HID device and remove it using pnputil"
+                "",
+                "... ...   foreach ($dev in $ghost_hid_devs) { pnputil /remove-device $dev.InstanceId }",
+                "... ...",
+                "... ... finally, do one last reboot.",
+                "... ... cheers~",
+                sep="\n",
+            )
+            last_exception = ValueError(message)
             raise last_exception
+
+        if last_exception is not None:
+            print(
+                f"chu3controller.open: {last_exception.__class__.__name__}: {last_exception}",
+                file=stderr,
+            )
+            exit(-1)
 
         print(
             f"chu3controller.open: io4/hid: opened {self.device_hid.get_manufacturer_string()} - {self.device_hid.get_product_string()} ({self.device_hid.get_serial_number_string()})",
@@ -547,6 +472,32 @@ class Chu3Controller:
         its corresponding bit is cleared (0). For example, if sensor 1 is blocked, then
         the left value becomes 0b011 (3), which when multiplied by 8 gives 24.
         """
+
+        """
+        air     l	r
+        
+        -       56	56
+        1       24	56
+        12      24	24
+        123     8	24
+        1234    8	8
+        12345   0	8
+        123456  0	0
+        
+        12	24	24
+        23	40	24
+        34	40	40
+        45	48	40
+        56	48	48
+        
+        1	24	56
+        2	56	24
+        3	40	56
+        4	56	40
+        5	48	56
+        6	56	48
+        """
+
         # Extract the 3-bit masks from l and r.
         l_mask = l >> 3  # Should be a value between 0 and 7.
         r_mask = r >> 3  # Should be a value between 0 and 7.
@@ -601,218 +552,363 @@ class Chu3Controller:
         print("chu3controller.close: closed", file=stderr)
 
 
-def sensor_to_truecolour_block(
-    value: int,
-    sensor_range: int = 256,
-    start_color: tuple[int, int, int] = (255, 255, 255),
-    end_color: tuple[int, int, int] = (255, 0, 0),
-) -> str:
-    # clamp and normalise to 0-1 scale
-    clamped_value = max(0, min(value, sensor_range - 1))
-    normalized = clamped_value / (sensor_range - 1) if sensor_range > 1 else 0
+def mido4_map_fingering_to_midi(
+    valveh: bool,
+    valve1: bool,
+    valve2: bool,
+    valve3: bool,
+    valve4: bool,
+    octave_variant: int,
+) -> int:
+    """returns -1 if the fingering is not recognised"""
 
-    r = int(start_color[0] + (end_color[0] - start_color[0]) * normalized)
-    g = int(start_color[1] + (end_color[1] - start_color[1]) * normalized)
-    b = int(start_color[2] + (end_color[2] - start_color[2]) * normalized)
+    base: int = 0
+    pattern = (valveh, valve1, valve2, valve3)
 
-    return f"[rgb({r},{g},{b})]█[/rgb({r},{g},{b})]"
+    if pattern == (False, False, False, False):
+        # Bb -> ____ (no valves pressed)
+        base = MIDI_BASE_Bb
 
+    elif pattern == (False, True, True, True):
+        # B -> 123_
+        base = MIDI_BASE_B
 
-def slider_to_truecolor_block(sliders: Air6Type) -> str:
-    return " ".join("[red]█[/red]" if v else "[white]█[/white]" for v in sliders)
+    elif pattern == (False, True, False, True):
+        # C -> 1_3_
+        base = MIDI_BASE_C
 
+    elif pattern == (False, False, True, True):
+        # C# -> _23_
+        base = MIDI_BASE_Cs
 
-def test():
-    from time import time_ns
+    elif pattern == (False, True, True, False):
+        # D -> 12__
+        base = MIDI_BASE_D
 
-    controller = Chu3Controller()
-    controller.open()
+    elif pattern == (False, True, False, False):
+        # Eb -> 1___
+        base = MIDI_BASE_Eb
 
-    console = Console()
-    start = time_ns()
-    readouts = 1
-    try:
-        last_readout = None
-        while True:
-            # console.clear()
-            readout = controller.read()
-            if readout != last_readout:
-                readouts += 1
-                last_readout = readout
+    elif pattern == (False, False, True, False):
+        # E -> _2__
+        base = MIDI_BASE_E
 
-            # ground 1-16
-            out = ""
+    elif pattern == (True, False, False, False):
+        # F -> H____
+        base = MIDI_BASE_F
 
-            for i in range(1, 32, 2):
-                out += sensor_to_truecolour_block(readout.ground32[i])
+    elif pattern == (True, False, True, True):
+        # F# -> H_23_
+        base = MIDI_BASE_Fs
 
-            out += "\n"
-            for i in range(0, 32, 2):
-                out += sensor_to_truecolour_block(readout.ground32[i])
+    elif pattern == (True, True, True, False):
+        # G -> H12__
+        base = MIDI_BASE_G
 
-            # air 1-6
-            out += "\n"
-            out += slider_to_truecolor_block(readout.air6)
-            out += "\n"
+    elif pattern == (True, True, False, False):
+        # G# -> H1___
+        base = MIDI_BASE_Gs
 
-            console.print(out)
-            # break
+    elif pattern == (True, False, True, False):
+        # A -> H_2__
+        base = MIDI_BASE_A + 12
 
-    except KeyboardInterrupt:
-        pass
+    else:
+        return -1
 
-    end = time_ns()
-    print(f"hz: {readouts / ((end - start) / 1e9)}")
-    controller.close()
+    # start at octave 1 = A is octave (20) + note (1) = 21
+    # start at octave 0 = A is octave (8) + note (1) = 9
+    # start at octave -2 = C is octave (-4) + note (4) = 0
+    octave = (
+        MIDO4_OCTAVE_STARTING
+        + octave_variant
+        + 2  # because the midi starts at C-2 (two octaves below the 'zeroth' octave)
+    ) * 12 - 4  # 12 notes per octave, -4 because midi starts at C-2 (note #0)
 
-
-def readout_test():
-    from time import time_ns
-
-    controller = Chu3Controller()
-    controller.open()
-
-    start = time_ns()
-    end = start + (1e9 * 5)
-    while time_ns() < end:
-        controller.read()
-
-    controller.close()
-
-    print(
-        "mido4 v1 5s readout report",
-        f"... air6 ro/5s     -> {controller.air_readouts}",
-        f"... air6 ro/s      -> {controller.air_readouts / 5}",
-        f"... air6 hz        -> {(air_hz := controller.air_readouts / ((end - start) / 1e9)):.3f}hz",
-        f"... air6 ms        -> {1000 * (1 / air_hz):.3f}ms",
-        f"... ground32 ro/5s -> {controller.ground_readouts}",
-        f"... ground32 ro/s  -> {controller.ground_readouts / 5}",
-        f"... ground32 hz    -> {(ground_hz := controller.ground_readouts / ((end - start) / 1e9)):.3f}hz",
-        f"... ground32 ms    -> {1000 * (1 / ground_hz):.3f}ms",
-        sep="\n",
-    )
+    return base + octave
 
 
-def color_test():
-    controller = Chu3Controller()
-    controller.open()
+def mido4_process_readout(
+    ground32: Ground32Type,
+    air6: Air6Type,
+) -> tuple[int, int]:
+    """
+    LAYOUT (GROUND32)
+    ... THIS WAY UP TO A CHUNITHM SCREEN (TASOLLER LOGO FOR TASOLLERS)
+    ... LEFT <--------> RIGHT
+    ... ... ground32[1] ground32[3] ground32[5] <---> ground32[31]
+    ... ... ground32[0] ground32[2] ground32[4] <---> ground32[30]
+    ... THIS WAY DOWN TO A HUMAN
 
-    rainbow_ground32 = []
-    for i in range(32):
-        position = (i * 6) // 32  # Split into 6 segments
-        if position == 0:  # Red to Yellow
-            r, g, b = 255, (i * 255) // 5, 0
-        elif position == 1:  # Yellow to Green
-            r, g, b = 255 - ((i - 5) * 255) // 5, 255, 0
-        elif position == 2:  # Green to Cyan
-            r, g, b = 0, 255, ((i - 10) * 255) // 5
-        elif position == 3:  # Cyan to Blue
-            r, g, b = 0, 255 - ((i - 15) * 255) // 5, 255
-        elif position == 4:  # Blue to Magenta
-            r, g, b = ((i - 20) * 255) // 5, 0, 255
-        else:  # Magenta to Red
-            r, g, b = 255, 0, 255 - ((i - 25) * 255) // 5
-        rainbow_ground32.append((r, g, b))
+    LAYOUT (AIR6)
+    ... THIS WAY UP TO THE SKY
+    ... ... air6[5]
+    ... ... air6[4]
+    ... ... air6[3]
+    ... ... air6[2]
+    ... ... air6[1]
+    ... ... air6[0]
+    ... THIS WAY DOWN TO THE GROUND
 
-    try:
-        while True:
-            readout = controller.read()
-            controller.set_led_colours(
-                Chu3LEDColours(
-                    ground31_brightness=255,
-                    ground31=[
-                        ((v, v, v) if v >= 24 else r)
-                        for r, v in zip(rainbow_ground32, readout.ground32)
-                    ],
-                    air_brightness=255,
-                    air24_left=(air24 := [
-                        (255, 255, 255) if v else (0, 0, 0)
-                        for v in [x for x in readout.air6 for _ in range(4)]
-                    ]),
-                    air24_right=air24,
-                )
-            )
-            sleep(0.008)
+    VALVE MAPPINGS
+    ... ---- "INWARD"    "OUTWARD"
+    ... H -> ground32[9] ground32[8]
+    ... 1 -> ground32[7] ground32[6]
+    ... 2 -> ground32[5] ground32[4]
+    ... 3 -> ground32[3] ground32[2]
+    ... 4 -> ground32[1] ground32[0]
+    """
 
-    except KeyboardInterrupt:
-        pass
+    ratio = 127 / MIDO4_CONTROLLER_PRESSURE_MAX
 
-    controller.close()
-
-
-def experimental_color_test():
-    def set_led_colours(self: Chu3Controller, colours: Chu3LEDColours) -> None:
-        """Set both ground and air LED colors using custom RGB protocol."""
-        SYNC_BYTE = 0xE0
-        HOST_ADDR = 1
-        LED_ADDR = 2
-        CMD_CUSTOM_RGB = 0x5B
-        
-        # Create the payload first
-        payload = bytearray([
-            CMD_CUSTOM_RGB,      # Command byte
-            colours.ground31_brightness & 0xFF,  # Ground brightness
-            colours.air_brightness & 0xFF,       # Tower brightness
-        ])
-        
-        # Add ground RGB values (31 LEDs)
-        for rgb in colours.ground31:
-            payload.extend([
-                rgb[1] & 0xFF,  # G
-                rgb[0] & 0xFF,  # R
-                rgb[2] & 0xFF   # B
-            ])
-        
-        # Add left tower RGB values (24 LEDs)
-        for rgb in colours.air24_left:
-            payload.extend([
-                rgb[1] & 0xFF,  # G
-                rgb[0] & 0xFF,  # R
-                rgb[2] & 0xFF   # B
-            ])
-        
-        # Add right tower RGB values (24 LEDs)
-        for rgb in colours.air24_right:
-            payload.extend([
-                rgb[1] & 0xFF,  # G
-                rgb[0] & 0xFF,  # R
-                rgb[2] & 0xFF   # B
-            ])
-    
-        # Create the full packet with framing
-        packet = bytearray([
-            SYNC_BYTE,      # Sync byte
-            LED_ADDR,       # Destination (LED board)
-            HOST_ADDR,      # Source (host)
-            len(payload),   # Length of payload
-        ])
-        packet.extend(payload)
-        
-        # Calculate checksum (sum of all bytes except sync)
-        checksum = sum(packet[1:]) & 0xFF
-        packet.append(checksum)
-        
-        # Send via COM port
-        self.device_com.write(packet)
-        self.device_com.flush()
-    
-    controller = Chu3Controller()
-    controller.open()
-    # set everything to white
-    set_led_colours(
-        controller,
-        Chu3LEDColours(
-            ground31_brightness=255,
-            ground31=[(128, 128, 128)] * 31,
-            air_brightness=255,
-            air24_left=[(128, 128, 128)] * 24,
-            air24_right=[(128, 128, 128)] * 24,
+    valveh_velocity: int = ceil(
+        min(
+            ground32[9] + ground32[8],
+            MIDO4_CONTROLLER_PRESSURE_MAX,
         )
+        * ratio
     )
-    input("...")
+    valveh_on_inward: bool = ground32[9] > MIDO4_CONTROLLER_PRESSURE_MIN
+
+    valve1_velocity: int = ceil(
+        min(
+            ground32[7] + ground32[6],
+            MIDO4_CONTROLLER_PRESSURE_MAX,
+        )
+        * ratio
+    )
+    valve1_on_inward: bool = ground32[7] > MIDO4_CONTROLLER_PRESSURE_MIN
+
+    valve2_velocity: int = ceil(
+        min(
+            ground32[5] + ground32[4],
+            MIDO4_CONTROLLER_PRESSURE_MAX,
+        )
+        * ratio
+    )
+    valve2_on_inward: bool = ground32[5] > MIDO4_CONTROLLER_PRESSURE_MIN
+
+    valve3_velocity: int = ceil(
+        min(
+            ground32[3] + ground32[2],
+            MIDO4_CONTROLLER_PRESSURE_MAX,
+        )
+        * ratio
+    )
+    valve3_on_inward: bool = ground32[3] > MIDO4_CONTROLLER_PRESSURE_MIN
+
+    valve4_velocity: int = ceil(
+        min(
+            ground32[1] + ground32[0],
+            MIDO4_CONTROLLER_PRESSURE_MAX,
+        )
+        * ratio
+    )
+    valve4_on_inward: bool = ground32[1] > MIDO4_CONTROLLER_PRESSURE_MIN
+    velocity: int = max(
+        valve1_velocity, valve2_velocity, valve3_velocity, valve4_velocity
+    )
+
+    octave_variant: int = 0
+    for i, value in enumerate(air6):
+        if value:
+            octave_variant = i + 1
+
+    return (
+        mido4_map_fingering_to_midi(
+            valveh_velocity >= MIDO4_CONTROLLER_PRESSURE_MIN,
+            valve1_velocity >= MIDO4_CONTROLLER_PRESSURE_MIN,
+            valve2_velocity >= MIDO4_CONTROLLER_PRESSURE_MIN,
+            valve3_velocity >= MIDO4_CONTROLLER_PRESSURE_MIN,
+            valve4_velocity >= MIDO4_CONTROLLER_PRESSURE_MIN,
+            octave_variant,
+        ),
+        velocity
+        if (
+            valve1_on_inward
+            or valve2_on_inward
+            or valve3_on_inward
+            or valve4_velocity
+            or valveh_on_inward
+        )
+        else 0,
+    )
+
+
+import math
+
+
+def _rainbow(position: float) -> tuple[int, int, int]:
+    h: float = 240.0 * position
+    s: float = 1.0
+    v: float = 1.0
+
+    h_sector: float = h / 60.0
+    i: int = int(h_sector)
+    f: float = h_sector - i
+    p: float = v * (1 - s)  # p is always 0 when s == 1
+    q: float = v * (1 - f * s)
+    t: float = v * (1 - (1 - f) * s)
+
+    if i == 0:
+        r, g, b = v, t, p
+    elif i == 1:
+        r, g, b = q, v, p
+    elif i == 2:
+        r, g, b = p, v, t
+    elif i == 3:
+        r, g, b = p, q, v
+    elif i == 4:
+        r, g, b = t, p, v
+    else:  # i == 5 (should not occur with h in [0,240])
+        r, g, b = v, p, q
+
+    return (int(r * 255), int(g * 255), int(b * 255))
+
+
+def mido4_blinkenlights(
+    note: tuple[int, int], ground32: Ground32Type, air6: Air6Type
+) -> Chu3LEDColours:
+    """
+    GROUND31 FORMAT: 16 GROUND, 15 DIVIDERS
+    ... LEFT <--------> RIGHT
+    ... KEYS ->  ground31[0], ground31[2], ground31[4], ..., ground31[30]
+    ... DIVIDERS -> ground31[1], ground31[3], ground31[5], ..., ground31[29]
+
+    AIR24 FORMAT: 6 * 4 LEDS
+    ... UNKNOWN LOL
+
+    VALVE MAPPINGS
+    ... ---- "INWARD"    "OUTWARD"
+    ... H -> ground32[9] ground32[8]
+    ... 1 -> ground32[7] ground32[6]
+    ... 2 -> ground32[5] ground32[4]
+    ... 3 -> ground32[3] ground32[2]
+    ... 4 -> ground32[1] ground32[0]
+    """
+
+    air24 = [(0, 0, 0)] * 24
+    for i, value in enumerate(air6):
+        if value:
+            air24[i * 4] = (101, 78, 163)
+            air24[i * 4 + 1] = (84, 60, 143)
+            air24[i * 4 + 2] = (68, 42, 124)
+            air24[i * 4 + 3] = (52, 23, 105)
+
+    ground31 = [(0, 0, 0)] * 31
+
+    # valve dividers
+    ground31[1] = (255, 255, 255)
+    ground31[3] = (255, 255, 255)
+    ground31[5] = (255, 255, 255)
+    ground31[7] = (255, 255, 255)
+
+    # valve colours
+    note_lowest = (MIDO4_OCTAVE_STARTING + 2) * 12 - 4 + 1
+    note_highest = (MIDO4_OCTAVE_STARTING + 8 + 2) * 12 - 4
+    note_colour: tuple[int, int, int] = _rainbow(note[0] / (note_highest - note_lowest))
+
+    # if note[0] != -1:
+    #     valveh = note_colour if (ground32[9] + ground32[8]) > 0 else (128, 128, 128)
+    #     valve1 = note_colour if (ground32[7] + ground32[6]) > 0 else (128, 128, 128)
+    #     valve2 = note_colour if (ground32[5] + ground32[4]) > 0 else (128, 128, 128)
+    #     valve3 = note_colour if (ground32[3] + ground32[2]) > 0 else (128, 128, 128)
+    ground31[0] = note_colour if (ground32[1] or ground32[0]) else (128, 128, 128)
+    ground31[2] = note_colour if (ground32[3] or ground32[2]) else (128, 128, 128)
+    ground31[4] = note_colour if (ground32[5] or ground32[4]) else (128, 128, 128)
+    ground31[6] = note_colour if (ground32[7] or ground32[6]) else (128, 128, 128)
+    ground31[8] = note_colour if (ground32[9] or ground32[8]) else (128, 128, 128)
+
+    # slider representation, top 6*2
+    # ... air 6[5] -> ground31[31] + ground31[30]
+    # ... ...
+    # ... air 6[0] -> ground31[21] + ground31[20]
+    if air6[5]:
+        ground31[30] = (255, 255, 255)
+        ground31[29] = (255, 255, 255)
+
+    if air6[4]:
+        ground31[28] = (255, 255, 255)
+        ground31[27] = (255, 255, 255)
+
+    if air6[3]:
+        ground31[26] = (255, 255, 255)
+        ground31[25] = (255, 255, 255)
+
+    if air6[2]:
+        ground31[24] = (255, 255, 255)
+        ground31[23] = (255, 255, 255)
+
+    if air6[1]:
+        ground31[22] = (255, 255, 255)
+        ground31[21] = (255, 255, 255)
+
+    if air6[0]:
+        ground31[20] = (255, 255, 255)
+        ground31[19] = (255, 255, 255)
+
+    return Chu3LEDColours(
+        ground31_brightness=255,
+        ground31=ground31,
+        air_brightness=255,
+        air24_left=air24,
+        air24_right=air24,
+    )
+
+
+def mido4():
+    print("mido4: opening midi port", file=stderr)
+    midiout = rtmidi.MidiOut()  # type: ignore
+    available_ports = midiout.get_ports()
+    if available_ports:
+        midiout.open_port(0)
+        print(f"mido4: opened on port 0", file=stderr)
+    else:
+        midiout.open_virtual_port(MIDO4_MIDI_NAME)
+        print(f"mido4: opened port under '{MIDO4_MIDI_NAME}'", file=stderr)
+    
+    controller = Chu3Controller()
+    controller.open()
+
+    last_note: tuple[int, int] = (-1, -1)
+    try:
+        with midiout:
+            while True:
+                readout = controller.read()
+                note = mido4_process_readout(
+                    readout.ground32,
+                    readout.air6,
+                )
+                
+                if (
+                    (note[0] != -1)
+                    # and (note[0] != last_note[0])
+                ):
+                    last_note = note
+                    midiout.send_message([0x90, *note])
+                    print(note)
+                
+                controller.set_ground_led_colours(
+                    mido4_blinkenlights(
+                        note,
+                        readout.ground32,
+                        readout.air6,
+                    )
+                )
+
+    except Exception:
+        from traceback import print_exc
+
+        print_exc()
+
+    except KeyboardInterrupt:
+        pass
+
+    print("mido4: cleaning up...")
+    del midiout
     controller.close()
 
 
 if __name__ == "__main__":
-    experimental_color_test()
-    # color_test()
+    mido4()
+    # mido4()

@@ -1,0 +1,12 @@
+[about]
+project = "sota staircase Sidestepper"
+description = "a fast enough .gitignore-respecting large file finder"
+platforms = "cli"
+status = "complete"
+licence = "0BSD"
+language = "rust"
+
+[release]
+version = "v5 (i3/a6)"
+url = "https://forge.joshwel.co/mark/sidestepper/releases"
+date = 2025-01-29

@@ -1,0 +1,13 @@
+[package]
+name = "sidestepper"
+version = "5.3.6"
+edition = "2021"
+
+[dependencies]
+ignore = "0.4.23"
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+opt-level = "z"

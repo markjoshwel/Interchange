@@ -1,0 +1,12 @@
+[project]
+name = "GirlsLastStickers"
+version = "2025.5.19"
+description = "booru scraper + image processor for telegram-ready girls last tour stickers"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "html5lib>=1.1",
+    "ipykernel>=6.29.5",
+    "requests>=2.32.3",
+]

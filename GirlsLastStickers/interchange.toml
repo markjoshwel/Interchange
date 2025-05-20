@@ -1,0 +1,7 @@
+[about]
+project = "GirlsLastStickers"
+description = "booru scraper + image processor for telegram-ready girls last tour stickers"
+platforms = ["cli", "desktop"]
+status = "complete"
+licence = "0BSD"
+language = "python"

@@ -1,0 +1,7 @@
+[about]
+project = "MulipeaConverter"
+description = "the script i use to encode my music library into iPod-friendly AAC files"
+platforms = ["library", "desktop"]
+status = "maintenance"
+licence = "0BSD"
+language = "python"

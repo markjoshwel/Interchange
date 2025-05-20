@@ -1,0 +1,7 @@
+[about]
+project = "sota staircase ReStepper"
+description = "forge.joshwel.co-to-github one way sync script for school projects"
+platforms = "cli"
+status = "maintenance"
+licence = "0BSD"
+language = "python"

@@ -1,0 +1,7 @@
+[about]
+project = "unity"
+description = "loose selection of C# scripts i may want to reuse for school unity projects"
+platforms = "cli"
+status = "active"
+licence = "0BSD"
+language = ["python", "zig"]

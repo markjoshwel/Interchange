@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "sinsandvirtues"
+version = "1.0.0"
+description = "automating adobe illustrator with python for a silly form"
+authors = ["Mark Joshwel <mark@joshwel.co>"]
+license = "GPLv3"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pywin32 = "^306"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.3"
+mypy = "^1.11.2"
+types-pywin32 = "^306.0.0.20240822"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

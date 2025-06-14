@@ -1,0 +1,7 @@
+[about]
+project = "sinsandvirtues"
+description = "adobe illustrator automation for survey visualisation with win32com"
+platforms = "cli"
+status = "complete"
+licence = ["Unlicense", "CC-BY-4.0"]
+language = "python"

@@ -1,0 +1,7 @@
+[about]
+project = "daycircle"
+description = "beautifully chart your average day over a period of time; abandoned mvp"
+platforms = "cli"
+status = "complete"
+licence = "Unlicense"
+language = "python"

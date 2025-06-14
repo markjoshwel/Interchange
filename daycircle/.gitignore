@@ -1,0 +1,53 @@
+# project-specific
+fonts/
+outputs/
+samples/
+dc.bat
+
+# cached files
+__pycache__/
+*$py.class
+*.py[cod]
+
+# distribution
+*.egg-info/
+.eggs/
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+pip-wheel-metadata/
+sdist/
+share/python-wheels/
+var/
+wheels/
+*.egg
+*.so
+.installed.cfg
+MANIFEST
+pip-delete-this-directory.txt
+pip-log.txt
+
+# venv 
+.env
+.python-version
+.venv
+env.bak/
+ENV/
+ENV/
+venv.bak/
+venv/
+
+# mypy
+.dmypy.json
+.mypy_cache/
+dmypy.json
+
+# nix
+.devbox
+result

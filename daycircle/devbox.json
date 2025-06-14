@@ -1,0 +1,16 @@
+{
+  "packages": [
+    "python@latest",
+    "poetry@latest",
+    "ninja@latest",
+    "blas@latest"
+  ],
+  "shell": {
+    "init_hook": [],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}

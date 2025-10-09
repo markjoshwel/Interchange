@@ -1,10 +1,13 @@
-from tomlkit import loads as loads_toml, dumps as dumps_toml, inline_table  # pyright: ignore[reportUnknownVariableType]
 from json import loads as loads_json
 from pathlib import Path
-from typing import cast, TypedDict
 from subprocess import run
 from tempfile import TemporaryDirectory
 from traceback import print_tb
+from typing import TypedDict, cast
+
+from tomlkit import dumps as dumps_toml  # type: ignore  # pyright: ignore[reportUnknownVariableType]
+from tomlkit import inline_table
+from tomlkit import loads as loads_toml
 
 interchange_path = Path(__file__).parent.joinpath("interchange.toml")
 interchange = loads_toml(interchange_path.read_text())
@@ -87,7 +90,7 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
 
                 repo_dir_name: str = repo_url.split("/")[-1].split(".git")[0]
                 repo_dir = Path(tmpdir).joinpath(repo_dir_name)
-                
+
                 if not repo_dir.exists():
                     print(
                         f" -> using `git clone {repo_url} {repo_dir_name}`"
@@ -109,7 +112,7 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                         continue
                 else:
                     print(" -> skipping git clone, already pulled")
-                
+
                 # switch branch
                 original_branch: str = "main"
                 cp_get_branch = run(
@@ -118,13 +121,13 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                     capture_output=True,
                 )
                 original_branch = cp_get_branch.stdout.decode().strip()
-                
+
                 if cp_get_branch.returncode != 0:
                     print(f"error: failed to get current branch for repo '{repo_dir}'")
                     for line in cp_get_branch.stderr.decode().splitlines():
                         print(f" ... {line}")
                     continue
-                
+
                 if target_branch:
                     print(f" -> switching to branch '{target_branch}'")
                     cp_switch_branch = run(
@@ -141,8 +144,13 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                 # figure out what languages are in the project
                 # enry is a golang implementation of github's linguist
 
-                enry_invocation: list[str] = [str(Path(__file__).parent.joinpath("enry/enry").absolute()), "--json"]
-                enry_wd: Path = repo_dir.joinpath(target_subdir) if target_subdir else repo_dir
+                enry_invocation: list[str] = [
+                    str(Path(__file__).parent.joinpath("enry/enry").absolute()),
+                    "--json",
+                ]
+                enry_wd: Path = (
+                    repo_dir.joinpath(target_subdir) if target_subdir else repo_dir
+                )
                 print(f" -> running enry on {enry_wd}")
                 cp_enry = run(
                     enry_invocation,
@@ -166,19 +174,18 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                     p_info["enry"]["result"] = []
 
                     for lang_results in enry_result:  # pyright: ignore[reportAny]
-                        
                         assert "color" in lang_results, (
                             "enry json output should contain 'size' key"
                         )
-                        
+
                         assert "language" in lang_results, (
                             "enry json output should contain 'size' key"
                         )
-                        
+
                         assert "percentage" in lang_results, (
                             "enry json output should contain 'size' key"
                         )
-                        
+
                         assert "size" in lang_results, (
                             "enry json output should contain 'size' key"
                         )
@@ -186,7 +193,9 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                         results = inline_table()
                         results["color"] = lang_results["color"]
                         results["language"] = lang_results["language"]
-                        results["percentage"] = float(lang_results["percentage"].replace("%", ""))  # pyright: ignore[reportAny]
+                        results["percentage"] = float(
+                            lang_results["percentage"].replace("%", "")
+                        )  # pyright: ignore[reportAny]
                         results["size"] = lang_results["size"]
 
                         # ungodly type cast hack
@@ -200,7 +209,7 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                     )
                     print_tb(exc.__traceback__)
                     continue
-                
+
                 if target_branch:
                     print(f" -> switching back to '{original_branch}'")
                     cp_switch_branch = run(
@@ -209,7 +218,9 @@ with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
                         capture_output=True,
                     )
                     if cp_switch_branch.returncode != 0:
-                        print(f"error: failed to switch back to branch '{original_branch}'")
+                        print(
+                            f"error: failed to switch back to branch '{original_branch}'"
+                        )
                         for line in cp_switch_branch.stderr.decode().splitlines():
                             print(f" ... {line}")
                         continue

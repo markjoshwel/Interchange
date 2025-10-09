@@ -57,8 +57,8 @@
 #
 # for new tags:
 #     this list is non-exhaustive, however, if listing a new tag,
-#     it must have a backlink to a tag listed here
-#     (or just add it to the reference list)
+#     it must have a backlink to a tag listed here, else, it should be
+#     specified with a category (or just add it to the reference list)
 #
 #     example: the TASOLLER, a game controller (hardware) not listed here
 #         "Peripherals / Game Controllers / TASOLLER"

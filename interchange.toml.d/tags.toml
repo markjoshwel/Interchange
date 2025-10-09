@@ -24,6 +24,8 @@
 #         Tag(name=["T"], backlinks=["R", "S"])
 #
 # note on tag aliases:
+#     only valid for main tags
+# 
 #     'J / K | L / M' -> invalid, don't alias in the middle of a backlink path
 #     'J / K / L | M' -> valid, aliasing at the end for a main tag is ok
 #
@@ -84,9 +86,42 @@
 
 # and now, the categories:
 
+"Activity" = [
+    "Programming",
+
+    "Interactive / User Experience | UX",
+    "UX / UX Research",
+    "UX / UX Design",
+    
+    "Design, UI / UI Research",
+    "Design, UI / UI Design",
+    
+    "Visual, Design / Visual Design",
+    "Visual, Design / Graphic Design",
+
+    "Visual, Design / Modelling",
+    "Visual, Design / Sculpting",
+    "Visual, Design / Animation",
+
+    "Audial, Design / Sound Design",
+    "Audial, Design / Sound Synthesis",  # pure data, etc
+    "Audial, Design / Music / Music Composition",
+    "Audial, Design / Music / Music Production",
+    "Audial, Design / Music / Music Arrangement",
+    "Audial, Design / Music / Music Transcription",
+
+    "Design / Computer-Aided Design | CAD",
+    
+    "Programming / Game Development",
+    "Game Development, Desktop, GUI / PC Game Development",
+    "Game Development, Console, GUI / Console Game Development",
+    "PC Game Development, Mobile Game Development / Cross-platform Game Development",
+]
+
 "Hardware" = [
     # main hardware
     "Hardware / Desktop",
+    "Hardware / Console",
     "Hardware / Mobile",
     "Hardware / SoC | System on a Chip",
 
@@ -108,14 +143,21 @@
     
     "Hardware / Peripherals",
 ]
-"Platform and Tooling" = [
+
+"Platform" = [
     # main platform classes
-    "Operating Systems / Linux",
-    "Operating Systems / macOS",
-    "Operating Systems / Windows",
+    "Operating Systems, Desktop / Windows",
+    "Operating Systems, Desktop / Linux",
+    "Operating Systems, Desktop / macOS",
+
+    "Operating Systems, Mobile / Android",
+    "Operating Systems, Mobile / iOS",
+    "Operating Systems, Mobile / iPadOS",
+    "Operating Systems, Mobile / visionOS",
 
     # 'second-thought' platform classes
     "Web", "Docker",
+    "Windows, Linux, macOS / Terminal",
 
     # linux distros
     "Linux / Gentoo Linux",
@@ -133,19 +175,75 @@
     # platform features
     "Gentoo Linux, Package Management / Portage",
 ]
-"Interactivity" = [
-    "Interactive / User Interface | UI",
-    "UI / CLI | Command-line Interface",
-    "UI / TUI | Terminal User Interface",
+
+"Interface" = [
+    "Interface / Interactive / User Interface | UI",
+
+    "UI, Terminal / CLI | Command-line Interface",
+    "UI, Terminal / TUI | Terminal User Interface",
     "UI / GUI | Graphical User Interface",
-    "Desktop / Desktop Application",
-    "GUI, Mobile / Mobile Application",
-    "Mobile Application / Android Application",
-    "Mobile Application / iOS Application",
+
+    "Web, GUI / Website",
+    "Desktop, GUI / Desktop Application",
+    "Console, GUI / Console Application",
+    "Mobile, GUI / Mobile Application",
+    "Mobile Application, Android / Android Application",
+    "Mobile Application, iOS / iOS Application",
+    
+    "GUI / Game",
+    "Desktop, Game / PC Game",
+    "Console, Game / Console Game",
+    
+    "Game, Mobile / Mobile Game",
+    "Mobile Game, Android / Android Game",
+    "Mobile Game, iOS / iOS Game",
+    "Android Game, iOS Game / Cross-platform Mobile Game",
+
+    "Non-interactive / Code Excerpt",
     "Non-interactive / Library",
     "Non-interactive / Framework",
+    
+    "Interface / Device Driver",
+    "Interface / Device Firmware",
+    
+    "Interface / Physical",
+    "Physical, Non-Interactive / Non-Interactive Physical Interface",  # clock
+    "Physical, Interactive / Interactive Physical Interface",  # anything with buttons, knobs, etc
 ]
-"Programming and Tooling" = [
+
+"Input Methods" = [
+    "Interface / Input Methods",
+
+    "Input Methods, Peripherals / Keyboard",
+    "Input Methods, Peripherals / Pointer Devices / Mouse",
+    "Input Methods, Peripherals / Pointer Devices / Touchpad",
+    "Input Methods, Peripherals / Touchscreen",
+    "Input Methods, Peripherals / Game Controllers",
+    "Input Methods, Peripherals / Drawing Tablets",
+    
+    "Input Methods, Peripherals / Scanners and Readers",
+    "Scanners and Readers / Barcode Scanner",
+    "Scanners and Readers / RFID Reader",
+    "Scanners and Readers / NFC Reader",
+    
+    "Input Methods / Biometrics",
+    "Biometrics / Fingerprint Scanner",
+    "Biometrics / Iris Scanner",
+    "Biometrics / Facial Recognition",
+
+    "Input Methods, Computational Linguistics / Voice Recognition",
+
+    "Input Methods, Affective Computing / Emotion Detection",
+    "Input Methods, Computer Vision / Eye Tracking",
+    "Input Methods, Computer Vision / Eyebrow Tracking",
+    "Input Methods, Computer Vision / Mouth Tracking",
+    "Input Methods, Computer Vision / Facial Tracking",
+    
+    "Input Methods / Face Scanning",
+    "Input Methods, Signal Processing / Brain-Computer Interface",
+]
+
+"Programming" = [
     "Programming / Programming Languages",
 
     "Programming Languages / Interpreted Programming Languages | Interpreted",
@@ -235,6 +333,77 @@
     "Rust, Dependency Management, Build Systems / Cargo",
 ]
 
+"Libraries" = [
+    "Python / Pydantic",
+    "Python, Image Manipulation / Pillow | PIL | Python Imaging Library",
+    "Web / htmx",
+    "Image Manipulation / libvips",
+]
+
+"Features" = [
+    "Signal Processing",
+    "Audial, Signal Processing / Audio Signal Processing",
+    "Visual, Signal Processing / Image Signal Processing",
+
+    "Artificial Intelligence | AI",
+    "AI / Machine Learning / Neural Networks / Large Language Models",
+    "AI / Computer Vision",
+    "AI / Affective Computing",
+
+    "AI / Computational Linguistics",
+    "Computational Linguistics / Natural Language Processing",
+    "Computational Linguistics / Speech Recognition | Voice Recognition",
+
+    "Visual / Image Creation",
+    "Visual / Image Manipulation",
+    "Visual / Image Encoding",
+
+    "Audial / Audio Creation",
+    "Audial / Audio Manipulation",
+    "Audial / Audio Encoding",
+    
+    "Programming / Multithreading",
+    "Programming / Multiprocessing",
+    "Programming / Data Validation",
+    
+    "Web / Responsive Web Design",
+    "Web / Progressive Web Apps",
+    "Web / Web Components",
+    "Web / Web Animations",
+    "Web / Web Visualisations",
+    
+    "Interactive, Web Animations / Interactive Web Animations",
+    "Interactive, Web Visualisations / Interactive Web Visualisations",
+    "Interactive, Web / Active Interactive Web Elements",
+]
+
+"Frameworks and Engines" = [
+    "Game Engines / Unity",
+    "Game Engines / Unreal Engine",
+    "Game Engines / Godot",
+
+    # webslop
+    "Frameworks, TypeScript, JavaScript / React",
+    "React / React Native",
+    "React Native / Expo",
+    "CSS / Tailwind | Tailwind CSS",
+    
+    # uislop
+    "Frameworks, Swift / SwiftUI",
+    "Frameworks, Dart / Flutter",
+    "Frameworks, Kotlin / Jetpack Compose"
+]
+
+"Integrations" = [
+    "Cloud, Backend / Firebase",
+    "Cloud, Backend / Supabase",
+    "Cloud / Amazon Web Services | AWS",
+    "Cloud / Microsoft Azure | Azure",
+    "Cloud / Google Cloud Platform | GCP",
+    "LTA DataMall",
+    "LTA DataMall",
+]
+
 "File Formats" = [
     # text / textual (for writing)
     "File Formats, Textual / Markdown",
@@ -315,53 +484,18 @@
     "Ogg / Ogg Vorbis",
     "Ogg / Ogg Opus",
 ]
-"Frameworks and Engines" = [
-    "Game Engines / Unity",
-    "Game Engines / Unreal Engine",
-    "Game Engines / Godot",
 
-    # webslop
-    "Frameworks / TypeScript, JavaScript / React",
-    "React / React Native",
-    "React Native / Expo",
-    "CSS / Tailwind | Tailwind CSS",
-    
-    # uislop
-    "Frameworks / Swift / SwiftUI",
-    "Frameworks / Dart / Flutter",
-    "Frameworks / Kotlin / Jetpack Compose"
-]
-"Libraries" = [
-    "Python / Pydantic",
-    "Python, Image Manipulation / Pillow | PIL | Python Imaging Library",
-    "Web / htmx",
-    "Image Manipulation / libvips",
-]
-"Features" = [
-    "Artificial Intelligence | AI",
-    "AI / Large Language Models",
-    "AI / Computer Vision / Image Processing",
-    "Visual / Image Creation",
-    "Visual / Image Manipulation",
-    "Visual / Image Encoding",
-    "Audial / Audio Creation",
-    "Audial / Audio Manipulation",
-    "Audial / Audio Encoding",
-    
-    "Programming / Multithreading",
-    "Programming / Multiprocessing",
-    "Programming / Data Validation",
-]
 "Tooling" = [
     "Nix, Dependency Management, Build Systems / Devbox",
 
     "Version Control / Git",
     "Version Control / Pijul",
 
-    "Design / Computer-Aided Design | CAD",
     "Physical, CAD / KiCad",
-    "Visual, Design / 3D Modelling / Blender",
-    "Visual, Design / 3D Modelling / Maya",
+    "Modelling / Blender",
+    "Modelling / Maya",
+    "Modelling, Sculpting / ZBrush",
+    "Texturing / Adobe Substance Painter",
     
     "Image Manipulation, Image Encoding` / ImageMagick",
     "Image Manipulation, Image Encoding` / vips",
@@ -377,11 +511,18 @@
     "Modelling / Maya",
     "Videos / Davinci Resolve",
     "Videos / Adobe Premiere Pro",
-    "Visual / Graphics / Raster Graphics / GIMP",
-    "Visual / Graphics / Raster Graphics / Adobe Photoshop",
-    "Visual / Graphics / Vector Graphics / Inkscape",
-    "Visual / Graphics / Vector Graphics / Adobe Illustrator",
+    
+    "Visual / Graphics / Raster Graphics",
+    "Visual Design, Raster Graphics / GIMP",
+    "Visual Design, Raster Graphics / Adobe Photoshop",
+    "Visual Design, Raster Graphics / Affinity Photo",
+
+    "Visual / Graphics / Vector Graphics",
+    "Graphic Design, Vector Graphics / Inkscape",
+    "Graphic Design, Vector Graphics / Adobe Illustrator",
+    "Graphic Design, Vector Graphics / Affinity Designer",
 ]
+
 "Licencing" = [
     "Licencing / Public Domain",
     "Licencing / Public Domain-Like",

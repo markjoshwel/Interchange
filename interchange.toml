@@ -1,0 +1,254 @@
+[interchange.projects.system]
+name = "system"
+description = "my {root,dot,home}files"
+urls = [ "https://github.com/markjoshwel/system" ]
+tags = [
+    "Gentoo Linux",
+    "Nix Flakes",
+    "POSIX Shell",
+    "Python",
+    "Portage",
+    "Configuration Files",
+]
+enry.subdirectory = ""
+enry.result = [{color = "#3572A5", language = "Python", percentage = 84.852, size = "51832"}, {color = "#89e051", language = "Shell", percentage = 12.478, size = "7622"}, {color = "#7e7eff", language = "Nix", percentage = 2.67, size = "1631"}]
+
+[interchange.projects.colourmeok-colorimetry]
+name = "Colorimetry Code from ColourMeOK (School Assignment)"
+description = "includes a demo UI Elements-based MonoBehaviour UI consumer"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/oklch"]
+tags = [
+    "Unity",
+    "C#",
+    "Visual / Science / Colorimetry",
+]
+enry.subdirectory = "unity/oklch"
+enry.result = [{color = "#178600", language = "C#", percentage = 100.0, size = "23606"}]
+
+[interchange.projects.unity-firebase-backend]
+name = "Firebase Backend Code from ColourMeOK (School Assignment)"
+description = "handling Firebase auth with a callback-based architecture"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/backend"]
+tags = [
+    "Unity",
+    "C#",
+    "Cloud, Backend / Firebase",
+]
+enry.subdirectory = "unity/backend"
+enry.result = [{color = "#178600", language = "C#", percentage = 100.0, size = "36778"}]
+
+[interchange.projects.zigby]
+name = "zigby"
+description = "an okay brainfuck interpreter written in zig"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/zigby"]
+tags = [
+    "Brainfuck",
+    "Interpreters",
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "zigby"
+enry.result = [{color = "#ec915c", language = "Zig", percentage = 100.0, size = "26612"}]
+
+[interchange.projects.zigbpy]
+name = "zigbpy"
+description = "brainfuck-zig transpiler written in python"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/zigbpy"]
+tags = [
+    "Python",
+    "Zig",
+    "Brainfuck",
+    "Transpilers",
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "zigbpy"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 81.545, size = "25058"}, {color = "#ec915c", language = "Zig", percentage = 12.226, size = "3757"}, {color = "#2F2530", language = "Brainfuck", percentage = 6.229, size = "1914"}]
+
+[interchange.projects.irodorio4-presplit]
+name = "irodorio4 and mido4"
+description = "a userspace driver and hardware abstraction layer and userspace midi device driver for a chunithm controller"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/irodorio4"]
+tags = [
+    "Python",
+    "Zig",
+    "Hardware / Hardware Abstraction Layer",
+    "Peripherals / Game Controllers / TASOLLER",
+    "Peripherals / Drivers / Userspace Driver",
+    "Peripherals / MIDI / MIDI Devices / Userspace MIDI Device",
+]
+enry.subdirectory = "irodorio4"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "28540"}]
+
+[interchange.projects.sinsandvirtues]
+name = "sinsandvirtues"
+description = "automating adobe illustrator with python for a silly form we made"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/sinsandvirtues"]
+tags = [
+    "Python",
+    "(Libraries) Python / pywin32",
+    "(Libraries) Windows / Win32 API",
+    "(Features) Windows / Win32 API / Component Object Model (COM)",
+    "(Features) Python / Automation",
+    "(Tooling) Adobe Illustrator",
+    "(Licencing) CC-BY-4.0",
+    "(Licencing) UNLICENSE"
+]
+enry.subdirectory = "zigbpy"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 81.545, size = "25058"}, {color = "#ec915c", language = "Zig", percentage = 12.226, size = "3757"}, {color = "#2F2530", language = "Brainfuck", percentage = 6.229, size = "1914"}]
+
+[interchange.projects.tomlantic]
+name = "tomlantic"
+description = "marrying pydantic models and tomlkit documents for data validated, style-preserving toml files"
+tags = [
+    "Python",
+    "(Libraries) Python / Pydantic",
+    "(Libraries) Python / TOMLKit",
+    "(Features) TOML",
+    "(Licencing) UNLICENSE",
+    "(Licencing) 0BSD",
+    "(Licencing) Dual-licenced"
+]
+urls = ["https://github.com/markjoshwel/tomlantic"]
+enry.result = [{color = "#3572A5", language = "Python", percentage = 85.256, size = "51175"}, {color = "#7e7eff", language = "Nix", percentage = 14.744, size = "8850"}]
+
+[interchange.projects.surplus2024]
+name = "surplus"
+description = "Plus Code/latlong/query to iOS-Shortcuts-like shareable text"
+urls = ["https://github.com/markjoshwel/surplus/tree/future"]
+tags = [
+    "Python",
+    "(Libraries) Go / whatsmeow",
+    "(Libraries) Python / TOML Kit | TOMLKit",
+    "(Licencing) UNLICENSE",
+    "(Licencing) MPL-2.0",
+    "(Licencing) CC0-1.0",
+    "(Licencing) SIL-1.1",
+]
+enry.branch = "future"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 65.25, size = "71565"}, {color = "#89e051", language = "Shell", percentage = 17.288, size = "18961"}, {color = "#00ADD8", language = "Go", percentage = 11.876, size = "13025"}, {color = "#7e7eff", language = "Nix", percentage = 5.587, size = "6128"}]
+
+[interchange.projects.pettan]
+name = "pettan"
+description = "nix and compose files for a server that was supposed to run flatcar linux, thus the name"
+urls = ["https://github.com/markjoshwel/pettan"]
+tags = [
+    "Homelab",
+    "Docker Compose",
+    "NixOS",
+    "Nix Flakes",
+    "Configuration Files",
+]
+enry.result = [{color = "#7e7eff", language = "Nix", percentage = 100.0, size = "4354"}]
+
+[interchange.projects.mulipea]
+name = "MulipeaConverter"
+description = "the script i use to encode my music library into iPod-friendly AAC files"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/Mulipea"]
+tags = [
+    "Hardware / Music Players / iPod",
+    "AAC",
+    "MP3",
+    "FLAC",
+    "Ogg Vorbis",
+    "Python",
+    "(Tooling) Audio Manipulation, Audio Encoding / qaac",
+    "(Libraries) Pillow",
+    "(Libraries) Python / mutagen",
+    "(Libraries) Python / rich",
+    "(Features) Audio Metadata",
+    "(Features) MP3, Audio Metadata / ID3 Tags",
+    "(Features) Ogg Vorbis, FLAC, Audio Metadata / VorbisComment | Vorbis Tags",
+    "(Features) MP4, M4A, Audio Metadata / MP4 Tags | M4A Tags",
+    "(Features) Programming / Command Invocation",
+    "(Features) Programming / Multiprocessing",
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "Mulipea"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "65691"}]
+
+[interchange.projects.restepper]
+name = "sota staircase ReStepper"
+description = "forge.joshwel.co-to-github one way sync script for school projects"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/ReStepper"]
+tags = [
+    "Python",
+    "(Features) Python / Automation",
+    "(Features) Programming / Command Invocation",
+    "(Tooling) Git",
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "ReStepper"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "36839"}]
+
+[interchange.projects.sidestepper]
+name = "sidestepper"
+description = "a fast enough .gitignore-respecting large file finder"
+tags = [
+    "Rust",
+    "Git / Git LFS",
+    "(Features) Git / .gitignore",
+    "(Features) Operating Systems / Filesystem / Filesystem Traversal",
+    "(Licencing) 0BSD"
+]
+urls = ["https://github.com/markjoshwel/sidestepper"]
+enry.result = [{color = "#dea584", language = "Rust", percentage = 81.586, size = "10146"}, {color = "#012456", language = "PowerShell", percentage = 12.367, size = "1538"}, {color = "#7e7eff", language = "Nix", percentage = 6.047, size = "752"}]
+
+[interchange.projects.id-asg1]
+name = "Interactive Development Assignment 1 (School Assignment)"
+description = "website for the fictitious company “Krystall & Bahl”"
+tags = [
+    "HTML",
+    "CSS",
+    "Tailwind",
+    "JavaScript",
+    "Bun",
+    "(Licencing) ARR",
+    "(Licencing) OFL-1.1",
+    "(Licencing) MIT",
+    "(Licencing) UNLICENSE"
+]
+urls = ["https://github.com/markjoshwel/id-asg1"]
+enry.result = [{color = "#e34c26", language = "HTML", percentage = 63.962, size = "59438"}, {color = "#663399", language = "CSS", percentage = 35.086, size = "32604"}, {color = "#89e051", language = "Shell", percentage = 0.794, size = "738"}, {color = "#f1e05a", language = "JavaScript", percentage = 0.158, size = "147"}]
+
+[interchange.projects.fluffy58]
+name = "fluffy58"
+description = "an approachable 60%-like keymap for the lily58"
+tags = [
+    "C",
+    "Peripherals / Keyboards / Lily58",
+    "Peripherals / Keyboards / QMK Firmware",
+    "Makefile",
+    "Devbox",
+    "(Licencing) GPL-3.0",
+    "(Licencing) GPL-2.0",
+]
+urls = ["https://github.com/markjoshwel/fluffy58"]
+enry.result = [{color = "#555555", language = "C", percentage = 84.674, size = "8392"}, {color = "#427819", language = "Makefile", percentage = 15.326, size = "1519"}]
+
+[interchange.projects.portfolio-eae]
+name = "portfolio-eae"
+description = "my polytechnic early admissions exercise (eae) portfolio"
+tags = [
+    "HTML",
+    "CSS",
+    "Tailwind",
+    "Node.js",
+    "(Licencing) UNLICENSE",
+]
+urls = [
+    "https://github.com/markjoshwel/portfolio-eae",
+    "https://markjoshwel.github.io/portfolio-eae/",
+]
+enry.result = [{color = "#e34c26", language = "HTML", percentage = 90.299, size = "21438"}, {color = "#663399", language = "CSS", percentage = 7.868, size = "1868"}, {color = "#f1e05a", language = "JavaScript", percentage = 1.832, size = "435"}]
+
+[interchange.projects.hounds]
+name = "hounds"
+description = "simple game based on the hare and hounds board game"
+tags = [
+    "Godot",
+    "GDScript",
+    "(Tooling) Adobe Illustrator",
+    "(Licencing) UNLICENSE",
+    "(Licencing) OFL-1.0",
+]
+urls = ["https://github.com/markjoshwel/hounds"]
+enry.result = [{color = "#355570", language = "GDScript", percentage = 100.0, size = "18734"}]

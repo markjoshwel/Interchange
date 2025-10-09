@@ -1,0 +1,447 @@
+[interchange.reference.tags]
+# psuedogrammar: "[ '(' category_name ')' ] [ backlink_tag [ ',' union_backlink_tag_member ] '/' ]* main_tag [ '|' main_tag_alias ]*"
+#
+# examples:
+#   'X'           -> standalone tag
+#   'X / Y'       -> main tag Y, with backlink to X
+#   'X / Y / Z'   -> main tag Z, with backlink to Y, and Y has a backlink to X
+#   'A | B'       -> tag A, but also known as B (project entry tag choice takes precedence in display)
+#   'G, H / I'    -> interpreted as '(G, H) / I' -> I has backlink to G and H
+#
+# note on interpreting union backlinks in the middle of a backlink path:
+#     as an example,     `Q / R, S / T`
+#     is interpreted as: `Q / (R, S) / T`
+#     because unions, denoted by commas, are parsed between slashes
+#
+#     so: `Q / R, S / T`
+#         -> ["Q", "R, S", "T"]
+#         -> [Backlink("Q"), UnionBacklink(["R", "S"]), MainTag("T")]
+#
+#     which finally gets resolved to:
+#         Tag(name=["Q"], frontlinks=["R", "S"])
+#         Tag(name=["R"], frontlinks=["T"], backlinks=["Q"])
+#         Tag(name=["S"], frontlinks=["T"], backlinks=["Q"])
+#         Tag(name=["T"], backlinks=["R", "S"])
+#
+# note on tag aliases:
+#     'J / K | L / M' -> invalid, don't alias in the middle of a backlink path
+#     'J / K / L | M' -> valid, aliasing at the end for a main tag is ok
+#
+#     why? because parsing ambiguity if it were mixed with unions
+#
+# notes on escaping:
+#     in the rare case there is a need to escape a forward slash,
+#     or pipe character, use a backslash before it
+#
+#     it will be cheaply replaced with a temporary placeholder,
+#     which will be replaced back after parsing
+#
+# notes on categories:
+#     since tags may backlink to tags from different categories,
+#     it is recommended to use prefix the category name in brackets
+#     to override what would be the inferred main tag category via
+#     its backlinks
+# 
+#     example: the project messes with audio metadata
+#         "(Features) Audio Metadata"
+# 
+#         without the bracketed category override, it would be inferred
+#         to be under the `File Formats` category
+#     
+#     although i use the verbiage "override", the original category
+#     of Audio Metadata (File Formats) is preserved as an 'indirect'
+#     category and depending on what you do with indirect categories,
+#     may be exposed to the user for selection, filtering, etc
+#
+# for new tags:
+#     this list is non-exhaustive, however, if listing a new tag,
+#     it must have a backlink to a tag listed here
+#     (or just add it to the reference list)
+# 
+#     example: the TASOLLER, a game controller (hardware) not listed here
+#         "Peripherals / Game Controllers / TASOLLER"
+# 
+#         why: `Hardware / Peripherals` is listed here under hardware,
+#         so the TASOLLER tag is inferred to be hardware 
+# 
+#     example: whatsmeow, a go library, not listed here
+#         "(Libraries) Go / whatsmeow"
+# 
+#         why: Go is listed here under `Languages, Formats and Tooling`
+#         so prefixing it with a bracketed category name denotes that
+#         the tag whatsmeow is under the `Libraries` category
+# 
+#     prefixing the projects tag with `(<category>)` is the way to go
+#
+# expanding examples:
+#     toml:       `Libraries = [ "Pillow" ]`
+#     expands to: "Python / Pillow"
+#                 and "Visual / Image Manipulation / Pillow"
+#
+#     meaning that the project will have the direct tags: "Pillow",
+#     but the indirect tags "Python", "Visual", "Image Manipulation",
+#     allowing for filtering of Interchange projects
+
+# and now, the categories:
+
+"Hardware" = [
+    # main hardware
+    "Hardware / Desktop",
+    "Hardware / Mobile",
+    "Hardware / SoC | System on a Chip",
+
+    # architectures
+    "Hardware / CISC / x86 | IA-32",
+    "Hardware / RISC / ARM",
+    "Hardware / RISC / RISC-V",
+
+    # architecture types
+    "x86 / x86-64 | AMD64",
+    "ARM / ARM32",
+    "ARM / ARM64",
+    "ARM / ARM64 / Apple Silicon",
+
+    # specific: raspberry pis
+    "SoC / Raspberry Pi",
+    "Raspberry Pi / Raspberry Pi Zero 2 W",
+    "Raspberry Pi / Raspberry Pi Pico 2",
+    
+    "Hardware / Peripherals",
+]
+"Platform and Tooling" = [
+    # main platform classes
+    "Operating Systems / Linux",
+    "Operating Systems / macOS",
+    "Operating Systems / Windows",
+
+    # 'second-thought' platform classes
+    "Web", "Docker",
+
+    # linux distros
+    "Linux / Gentoo Linux",
+    "Linux / NixOS",
+
+    # deployment
+    "Bare Metal", "Server", "Embedded", "Server / Homelab",
+
+    # webdev and it brainrot slop terms
+    "Frontend | Front-end | Front End",
+    "Backend | Back-end | Back End",
+    "Fullstack | Full Stack",
+    "Cloud", "Edge", "Fog", "IoT", "Serverless",
+
+    # platform features
+    "Gentoo Linux, Package Management / Portage",
+]
+"Interactivity" = [
+    "Interactive / User Interface | UI",
+    "UI / CLI | Command-line Interface",
+    "UI / TUI | Terminal User Interface",
+    "UI / GUI | Graphical User Interface",
+    "Desktop / Desktop Application",
+    "GUI, Mobile / Mobile Application",
+    "Mobile Application / Android Application",
+    "Mobile Application / iOS Application",
+    "Non-interactive / Library",
+    "Non-interactive / Framework",
+]
+"Programming and Tooling" = [
+    "Programming / Programming Languages",
+
+    "Programming Languages / Interpreted Programming Languages | Interpreted",
+    "Programming Languages / Compiled Programming Languages | Compiled",
+    
+    "Programming Languages / Execution / Interpreters",
+    "Programming Languages / Translation / Compilers",
+    "Programming Languages / Translation / Transpilers",
+    "Programming Languages / Typing / Dynamically-Typed",
+    "Programming Languages / Typing / Statically-Typed",
+    
+    # shell
+    "Interpreted / Shell",
+    "Shell / Bash",
+    "Shell / POSIX Shell",
+    "Shell / Nushell",
+    "Shell / Fish",
+    "Interpreted, Windows / PowerShell",
+    "Interpreted, Windows / Batch",
+
+    # dpc
+    "Interpreted, Data Processing Counterlanguage",
+    "Compiled, Data Processing Counterlanguage",
+
+    # languages themselves
+    "Interpreted, Dynamically-Typed / Python",
+    "Python, Statically-Typed / mypy",
+    "Compiled, Statically-Typed / C",
+    "Compiled, Statically-Typed / C++",
+    "Compiled, Interpreted, Statically-Typed / C#",
+    
+    # web
+    # id rather html be here than in file formats
+    "Interpreted, Dynamically-Typed / JavaScript",
+    "JavaScript, Statically-Typed / TypeScript",
+
+    "JavaScript / JavaScript Engines",
+    "JavaScript Engines / V8",
+    "JavaScript Engines / JavaScriptCore",
+    "JavaScript Engines / LibJS",
+
+    "JavaScript / JavaScript Runtimes",
+    "JavaScript Runtimes / Node.js",
+    "JavaScript Runtimes / Bun",
+    "JavaScript Runtimes / Deno",
+    
+    "Web / HTML | HyperText Markup Language",
+    "Web / CSS | Cascading Style Sheets",
+
+    # newer languages
+    "Compiled, Statically-Typed / Swift",
+    "Compiled, Statically-Typed / Dart",
+
+    "Compiled, Statically-Typed / Go",
+    "Compiled, Statically-Typed / Rust",
+    "Compiled, Statically-Typed / Zig",
+
+    "Compiled, Statically-Typed / Odin",
+    "Compiled, Statically-Typed / Roc",
+    "Compiled, Statically-Typed / Jai",
+    
+    "Interpreted, Dynamically-Typed / Nix",
+    "Compiled, Statically-Typed / Haskell",
+    "Compiled, Statically-Typed / OCaml",
+
+    # mini scripting languages
+    "Interpreted, Dynamically-Typed / Lua",
+    "Interpreted, Dynamically-Typed, Statically-Typed, Godot Engine / GDScript",
+    "Compiled, Statically-Typed / Nelua | Native Extension Lua",
+
+    # lol
+    "Interpreted, Compiled / Brainfuck",
+    "Assembly",
+    "Assembly, Web, Statically-Typed / WebAssembly",
+
+    # language features and tooling
+    "Nix, Dependency Management, Build Systems / Nix Flakes",
+    "Nix, Python, Dependency Management, Build Systems / uv2nix",
+    "Nix, Python, Dependency Management, Build Systems / poetry2nix",
+    "Nix, Rust, Dependency Management, Build Systems / cargo2nix",
+    "Nix, Zig, Dependency Management, Build Systems / zon2nix",
+
+    "Python, Dependency Management / uv",
+    "Python, Dependency Management, Build Systems / Poetry",
+    "Python, Build Systems / Hatchling",
+    "Python, Dependency Management, Hatchling / Hatch",
+    "Rust, Dependency Management, Build Systems / Cargo",
+]
+
+"File Formats" = [
+    # text / textual (for writing)
+    "File Formats, Textual / Markdown",
+    "File Formats, Textual / Typst",
+    "File Formats, Textual / Plaintext | Plain Text",
+    
+    # text / plaintext
+    "Plaintext / Plain Text Accounting / hledger",
+    "Plaintext / Plain Text Accounting / Ledger",
+    "File Formats / Configuration Files",
+    
+    # text / serdes-able formats
+    "File Formats, macOS / Property List",
+    "File Formats / JSON | JavaScript Object Notation",
+    "JSON / JSONC | JSON with Comments",
+    "JSON / JSONL | JSON Lines",
+    "File Formats / XML | Extensible Markup Language",
+    "File Formats, Build Systems / Makefile",
+    "File Formats / Dockerfile",
+    "File Formats / TOML | Tom's Obvious Minimal Language",
+    "File Formats / YAML | YAML Ain't Markup Language",
+    "File Formats / YAML / Docker Compose | Compose",
+    "File Formats, Zig, Dependency Management, Build Systems / ZON | Zig Object Notation",
+    
+    # file formats subtags
+    "File Formats / File Metadata",
+    "File Formats / Lossy File Formats",
+    "File Formats / Lossless File Formats",
+    
+    # visual / images
+    "Visual / Image Coding Formats",
+    "Image Coding Formats, Lossy File Formats / Lossy Images",
+    "Image Coding Formats, Lossless File Formats / Lossless Images",
+
+    "File Formats, Lossy Images / WebP",
+    "Visual / Image Coding Formats / HEIF | High Efficiency Image File Format",
+    "HEIF, Lossy Images / HEIC | High Efficiency Image Codec",
+
+    "File Formats, Lossy Images / JPEG | Joint Photographic Experts Group",
+    "JPEG / JPEG LS",
+    "JPEG / JPEG 2000",
+    "JPEG / JPEG XT",
+    "JPEG / JPEG XL",
+    
+    "File Formats, Lossless Images / SVG | Scalable Vector Graphics",
+
+    "File Formats, Lossless Images, Lossy Images / GIF | Graphics Interchange Format",
+    "File Formats, Lossless Images / RAW",
+    "File Formats, Lossless Images / TIFF | Tagged Image File Format",
+    "File Formats, Lossless Images / PNG | Portable Network Graphics",
+    "File Formats, Lossless Images, AV1, HEIF / AVIF | Advanced Video Image Format",
+
+    # visual / videos
+    "Visual / Video Coding Formats",
+    # (all if not most video coding formats are compressed, so no distiction is made
+
+    "Video Coding Formats / MP4 | MPEG-4 Part 14",
+    "Video Coding Formats / WebM | Web Media Format",
+    "Video Coding Formats / AVI | Audio Video Interleave",
+    "Video Coding Formats / MOV | QuickTime Movie",
+    "Video Coding Formats / MKV | Matroska",
+    "Video Coding Formats / WMV | Windows Media Video",
+    "Video Coding Formats / AV1 | AOMedia Video 1",
+    
+    # audial
+    "Audial / Audio Coding Formats",
+    "Audio Coding Formats, File Metadata / Audio Metadata",
+    "Audio Coding Formats, Lossy File Formats / Lossy Audio",
+    "Audio Coding Formats, Lossless File Formats / Lossless Audio",
+    
+    "File Formats, Lossy Audio / AAC | Advanced Audio Coding",
+    "File Formats, Lossy Audio / MP3 | MPEG Audio Layer III",
+    "File Formats, Lossy Audio, MP4 / M4A | MPEG-4 Audio",
+    "File Formats, Lossless Audio / WAV | Waveform Audio File Format",
+    "File Formats, Lossless Audio / FLAC | Free Lossless Audio Codec",
+    
+    "File Formats, Audio Coding Formats / Ogg | Ogg Container Format",
+    "Ogg / Ogg Vorbis",
+    "Ogg / Ogg Opus",
+]
+"Frameworks and Engines" = [
+    "Game Engines / Unity",
+    "Game Engines / Unreal Engine",
+    "Game Engines / Godot",
+
+    # webslop
+    "Frameworks / TypeScript, JavaScript / React",
+    "React / React Native",
+    "React Native / Expo",
+    "CSS / Tailwind | Tailwind CSS",
+    
+    # uislop
+    "Frameworks / Swift / SwiftUI",
+    "Frameworks / Dart / Flutter",
+    "Frameworks / Kotlin / Jetpack Compose"
+]
+"Libraries" = [
+    "Python / Pydantic",
+    "Python, Image Manipulation / Pillow | PIL | Python Imaging Library",
+    "Web / htmx",
+    "Image Manipulation / libvips",
+]
+"Features" = [
+    "Artificial Intelligence | AI",
+    "AI / Large Language Models",
+    "AI / Computer Vision / Image Processing",
+    "Visual / Image Creation",
+    "Visual / Image Manipulation",
+    "Visual / Image Encoding",
+    "Audial / Audio Creation",
+    "Audial / Audio Manipulation",
+    "Audial / Audio Encoding",
+    
+    "Programming / Multithreading",
+    "Programming / Multiprocessing",
+    "Programming / Data Validation",
+]
+"Tooling" = [
+    "Nix, Dependency Management, Build Systems / Devbox",
+
+    "Version Control / Git",
+    "Version Control / Pijul",
+
+    "Design / Computer-Aided Design | CAD",
+    "Physical, CAD / KiCad",
+    "Visual, Design / 3D Modelling / Blender",
+    "Visual, Design / 3D Modelling / Maya",
+    
+    "Image Manipulation, Image Encoding` / ImageMagick",
+    "Image Manipulation, Image Encoding` / vips",
+    "Audio Manipulation, Audio Encoding / Audacity",
+    "Audio Manipulation, Audio Encoding / ffmpeg",
+
+    "Audio Manipulation / Digital Audio Workstation / Pro Tools",
+    "Audio Manipulation / Digital Audio Workstation / Reaper",
+    "Audio Manipulation / Digital Audio Workstation / Renoise",
+    "Audial / Notation / MuseScore",
+
+    "Modelling / Blender",
+    "Modelling / Maya",
+    "Videos / Davinci Resolve",
+    "Videos / Adobe Premiere Pro",
+    "Visual / Graphics / Raster Graphics / GIMP",
+    "Visual / Graphics / Raster Graphics / Adobe Photoshop",
+    "Visual / Graphics / Vector Graphics / Inkscape",
+    "Visual / Graphics / Vector Graphics / Adobe Illustrator",
+]
+"Licencing" = [
+    "Licencing / Public Domain",
+    "Licencing / Public Domain-Like",
+    "Licencing / Copyleft",
+    "Licencing / Copyleft / Strong Copyleft",
+    "Licencing / Copyleft / Weak Copyleft",
+    "Licencing / Copyright",
+    "Licencing / Copyright / All Rights Reserved | ARR",
+    "Licencing / FSF Free\\/Libre",
+    "Licencing / OSI Approved",
+    "Licencing / Dual-licenced",
+
+    # format: <main tag name: full licence name> | <alias name: spdx identifier>
+    
+    "Public Domain-Like, OSI Approved / BSD Zero Clause License | 0BSD",
+    "Copyright, OSI Approved, FSF Free\\/Libre / MIT License | MIT",
+    "Public Domain, OSI Approved, FSF Free\\/Libre / The Unlicense | UNLICENSE",
+    
+    # mozilla public license
+    "Weak Copyleft / Mozilla Public License | MPL",
+    "MPL, OSI Approved / Mozilla Public License 1.0 | MPL-1.0",
+    "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 1.1 | MPL-1.1",
+    "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 2.0 | MPL-2.0",
+    "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 2.0 (no copyleft exception) | MPL-2.0-no-copyleft-exception",
+    
+    # gnu affero general public license
+    "Strong Copyleft / Affero General Public License | AGPL",
+    "AGPL / Affero General Public License v1.0 only | AGPL-1.0-only",
+    "AGPL / Affero General Public License v1.0 or later | AGPL-1.0-or-later",
+    "AGPL, OSI Approved, FSF Free\\/Libre / GNU Affero General Public License v3.0 only | AGPL-3.0-only",
+    "AGPL, OSI Approved, FSF Free\\/Libre / GNU Affero General Public License v3.0 or later | AGPL-3.0-or-later",
+    
+    # gnu general public license
+    "Strong Copyleft / GNU General Public License | GPL",
+    "GPL / GNU General Public License v1.0 only | GPL-1.0-only",
+    "GPL / GNU General Public License v1.0 or later | GPL-1.0-or-later",
+    "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v2.0 only | GPL-2.0-only",
+    "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v2.0 or later | GPL-2.0-or-later",
+    "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v3.0 only | GPL-3.0-only",
+    "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v3.0 or later | GPL-3.0-or-later",
+    
+    # gnu lesser general public license 2, 2.1, 3
+    "Weak Copyleft / GNU Lesser General Public License | GNU Library General Public License | LGPL",
+    "LGPL, OSI Approved / GNU Library General Public License v2.0 only | LGPL-2.0-only",
+    "LGPL, OSI Approved / GNU Library General Public License v2.0 or later | LGPL-2.0-or-later",
+    "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v2.1 only | LGPL-2.1-only",
+    "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v2.1 or later | LGPL-2.1-or-later",
+    "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v3.0 only | LGPL-3.0-only",
+    "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v3.0 or later | LGPL-3.0-or-later",
+    
+    # creative commons
+    "Copyright, FSF Free\\/Libre / Creative Commons Attribution 4.0 International | CC-BY-4.0",
+    "Copyright, / Creative Commons Attribution Non Commercial 4.0 International | CC-BY-NC-4.0",
+    "Copyright, / Creative Commons Attribution Non Commercial No Derivatives 4.0 International | CC-BY-NC-ND-4.0",
+    "Copyright, / Creative Commons Attribution Non Commercial Share Alike 4.0 International | CC-BY-NC-SA-4.0",
+    "Copyright, / Creative Commons Attribution No Derivatives 4.0 International | CC-BY-ND-4.0",
+    "Copyright, / Creative Commons Attribution Share Alike 4.0 International | CC-BY-SA-4.0",
+    "Public Domain, Public Domain-Like / Creative Commons Zero v1.0 Universal | CC0-1.0",
+    
+    # fonts
+    "Copyright, FSF Free\\/Libre / SIL Open Font License 1.0 | OFL-1.0",
+    "Copyright, OSI Approved, FSF Free\\/Libre / SIL Open Font License 1.1 | OFL-1.1",
+]

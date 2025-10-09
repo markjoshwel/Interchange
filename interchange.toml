@@ -3,12 +3,18 @@ name = "system"
 description = "my {root,dot,home}files"
 urls = [ "https://github.com/markjoshwel/system" ]
 tags = [
-    "Gentoo Linux",
+    "Python",
     "Nix Flakes",
     "POSIX Shell",
-    "Python",
     "Portage",
     "Configuration Files",
+    
+    "(Platform) Windows",
+    "(Platform) macOS",
+    "(Platform) Gentoo Linux",
+    "(Platform) Terminal",
+
+    "(Interface) CLI",
 ]
 enry.subdirectory = ""
 enry.result = [{color = "#3572A5", language = "Python", percentage = 84.852, size = "51832"}, {color = "#89e051", language = "Shell", percentage = 12.478, size = "7622"}, {color = "#7e7eff", language = "Nix", percentage = 2.67, size = "1631"}]
@@ -18,50 +24,33 @@ name = "Colorimetry Code from ColourMeOK (School Assignment)"
 description = "includes a demo UI Elements-based MonoBehaviour UI consumer"
 urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/oklch"]
 tags = [
-    "Unity",
     "C#",
-    "Visual / Science / Colorimetry",
+    "Unity",
+
+    "(Interface) Code Excerpt",
+
+    "(Features) Visual / Science / Colorimetry",
 ]
 enry.subdirectory = "unity/oklch"
 enry.result = [{color = "#178600", language = "C#", percentage = 100.0, size = "23606"}]
-
-[interchange.projects.unity-firebase-backend]
-name = "Firebase Backend Code from ColourMeOK (School Assignment)"
-description = "handling Firebase auth with a callback-based architecture"
-urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/backend"]
-tags = [
-    "Unity",
-    "C#",
-    "Cloud, Backend / Firebase",
-]
-enry.subdirectory = "unity/backend"
-enry.result = [{color = "#178600", language = "C#", percentage = 100.0, size = "36778"}]
 
 [interchange.projects.zigby]
 name = "zigby"
 description = "an okay brainfuck interpreter written in zig"
 urls = ["https://github.com/markjoshwel/Depot/tree/main/zigby"]
 tags = [
+    "Zig",
     "Brainfuck",
     "Interpreters",
+    
+    "(Platform) Terminal",
+
+    "(Interface) CLI",
+    
     "(Licencing) 0BSD",
 ]
 enry.subdirectory = "zigby"
 enry.result = [{color = "#ec915c", language = "Zig", percentage = 100.0, size = "26612"}]
-
-[interchange.projects.zigbpy]
-name = "zigbpy"
-description = "brainfuck-zig transpiler written in python"
-urls = ["https://github.com/markjoshwel/Depot/tree/main/zigbpy"]
-tags = [
-    "Python",
-    "Zig",
-    "Brainfuck",
-    "Transpilers",
-    "(Licencing) 0BSD",
-]
-enry.subdirectory = "zigbpy"
-enry.result = [{color = "#3572A5", language = "Python", percentage = 81.545, size = "25058"}, {color = "#ec915c", language = "Zig", percentage = 12.226, size = "3757"}, {color = "#2F2530", language = "Brainfuck", percentage = 6.229, size = "1914"}]
 
 [interchange.projects.irodorio4-presplit]
 name = "irodorio4 and mido4"
@@ -70,10 +59,21 @@ urls = ["https://github.com/markjoshwel/Depot/tree/main/irodorio4"]
 tags = [
     "Python",
     "Zig",
-    "Hardware / Hardware Abstraction Layer",
-    "Peripherals / Game Controllers / TASOLLER",
-    "Peripherals / Drivers / Userspace Driver",
-    "Peripherals / MIDI / MIDI Devices / Userspace MIDI Device",
+    
+    "(Platform) Windows",
+    
+    "(Interface) Interactive Physical Interface",
+    "(Interface) Desktop Application",
+    "(Interface) Library",
+    "(Interface) Device Driver",
+    
+    "(Hardware) Peripherals / Game Controllers / TASOLLER",
+    
+    "(Input Methods) Game Controllers",
+    
+    "(Features) Hardware / Hardware Abstraction Layer",
+    "(Features) Peripherals, Device Driver / Userspace Driver",
+    "(Features) Peripherals / MIDI / MIDI Devices / Userspace MIDI Device",
 ]
 enry.subdirectory = "irodorio4"
 enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "28540"}]
@@ -84,11 +84,19 @@ description = "automating adobe illustrator with python for a silly form we made
 urls = ["https://github.com/markjoshwel/Depot/tree/main/sinsandvirtues"]
 tags = [
     "Python",
+    
+    "(Platform) Windows",
+
+    "(Interface) CLI",
+    
     "(Libraries) Python / pywin32",
     "(Libraries) Windows / Win32 API",
+    
     "(Features) Windows / Win32 API / Component Object Model (COM)",
     "(Features) Python / Automation",
+    
     "(Tooling) Adobe Illustrator",
+    
     "(Licencing) CC-BY-4.0",
     "(Licencing) UNLICENSE"
 ]
@@ -100,9 +108,14 @@ name = "tomlantic"
 description = "marrying pydantic models and tomlkit documents for data validated, style-preserving toml files"
 tags = [
     "Python",
+    
+    "(Interface) Library",
+    
     "(Libraries) Python / Pydantic",
-    "(Libraries) Python / TOMLKit",
-    "(Features) TOML",
+    "(Libraries) Python / TOML Kit | TOMLKit",
+    
+    "(Features) Data Validation",
+    
     "(Licencing) UNLICENSE",
     "(Licencing) 0BSD",
     "(Licencing) Dual-licenced"
@@ -116,8 +129,18 @@ description = "Plus Code/latlong/query to iOS-Shortcuts-like shareable text"
 urls = ["https://github.com/markjoshwel/surplus/tree/future"]
 tags = [
     "Python",
+    
+    "(Platform) Android / Termux",
+    
+    "(Interface) CLI",
+    
     "(Libraries) Go / whatsmeow",
-    "(Libraries) Python / TOML Kit | TOMLKit",
+    "(Libraries) Python / Telethon",
+    
+    "(Features) iOS / iOS Shortcuts / iOS Shortcuts Emulation",
+    "(Features) Communication / Instant Messengers / Telegram / Telegram Automation",
+    "(Features) Communication / Instant Messengers / WhatsApp / WhatsApp Automation",
+    
     "(Licencing) UNLICENSE",
     "(Licencing) MPL-2.0",
     "(Licencing) CC0-1.0",
@@ -125,19 +148,6 @@ tags = [
 ]
 enry.branch = "future"
 enry.result = [{color = "#3572A5", language = "Python", percentage = 65.25, size = "71565"}, {color = "#89e051", language = "Shell", percentage = 17.288, size = "18961"}, {color = "#00ADD8", language = "Go", percentage = 11.876, size = "13025"}, {color = "#7e7eff", language = "Nix", percentage = 5.587, size = "6128"}]
-
-[interchange.projects.pettan]
-name = "pettan"
-description = "nix and compose files for a server that was supposed to run flatcar linux, thus the name"
-urls = ["https://github.com/markjoshwel/pettan"]
-tags = [
-    "Homelab",
-    "Docker Compose",
-    "NixOS",
-    "Nix Flakes",
-    "Configuration Files",
-]
-enry.result = [{color = "#7e7eff", language = "Nix", percentage = 100.0, size = "4354"}]
 
 [interchange.projects.mulipea]
 name = "MulipeaConverter"
@@ -150,34 +160,28 @@ tags = [
     "FLAC",
     "Ogg Vorbis",
     "Python",
+    
+    "(Platform) Terminal",
+    
+    "(Interface) CLI",
+    
     "(Tooling) Audio Manipulation, Audio Encoding / qaac",
+    
     "(Libraries) Pillow",
     "(Libraries) Python / mutagen",
     "(Libraries) Python / rich",
+    
     "(Features) Audio Metadata",
     "(Features) MP3, Audio Metadata / ID3 Tags",
     "(Features) Ogg Vorbis, FLAC, Audio Metadata / VorbisComment | Vorbis Tags",
     "(Features) MP4, M4A, Audio Metadata / MP4 Tags | M4A Tags",
     "(Features) Programming / Command Invocation",
     "(Features) Programming / Multiprocessing",
+    
     "(Licencing) 0BSD",
 ]
 enry.subdirectory = "Mulipea"
 enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "65691"}]
-
-[interchange.projects.restepper]
-name = "sota staircase ReStepper"
-description = "forge.joshwel.co-to-github one way sync script for school projects"
-urls = ["https://github.com/markjoshwel/Depot/tree/main/ReStepper"]
-tags = [
-    "Python",
-    "(Features) Python / Automation",
-    "(Features) Programming / Command Invocation",
-    "(Tooling) Git",
-    "(Licencing) 0BSD",
-]
-enry.subdirectory = "ReStepper"
-enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "36839"}]
 
 [interchange.projects.sidestepper]
 name = "sidestepper"
@@ -185,12 +189,86 @@ description = "a fast enough .gitignore-respecting large file finder"
 tags = [
     "Rust",
     "Git / Git LFS",
+    
+    "(Platform) Terminal",
+    
+    "(Interface) CLI",
+    
     "(Features) Git / .gitignore",
     "(Features) Operating Systems / Filesystem / Filesystem Traversal",
+    
     "(Licencing) 0BSD"
 ]
 urls = ["https://github.com/markjoshwel/sidestepper"]
 enry.result = [{color = "#dea584", language = "Rust", percentage = 81.586, size = "10146"}, {color = "#012456", language = "PowerShell", percentage = 12.367, size = "1538"}, {color = "#7e7eff", language = "Nix", percentage = 6.047, size = "752"}]
+
+[interchange.projects.unity-firebase-backend]
+name = "Firebase Backend Code from ColourMeOK (School Assignment)"
+description = "handling Firebase auth with a callback-based architecture"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/backend"]
+tags = [
+    "C#",
+    "Unity",
+    
+    "(Interface) Code Excerpt",
+    
+    "(Integrations) Firebase",
+]
+enry.subdirectory = "unity/backend"
+enry.result = [{color = "#178600", language = "C#", percentage = 100.0, size = "36778"}]
+
+[interchange.projects.zigbpy]
+name = "zigbpy"
+description = "brainfuck-zig transpiler written in python"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/zigbpy"]
+tags = [
+    "Python",
+    "Zig",
+    "Brainfuck",
+    "Transpilers",
+    
+    "(Platform) Terminal",
+    
+    "(Interface) CLI",
+    
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "zigbpy"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 81.545, size = "25058"}, {color = "#ec915c", language = "Zig", percentage = 12.226, size = "3757"}, {color = "#2F2530", language = "Brainfuck", percentage = 6.229, size = "1914"}]
+
+[interchange.projects.pettan]
+name = "pettan"
+description = "nix and compose files for a server that was supposed to run flatcar linux, thus the name"
+urls = ["https://github.com/markjoshwel/pettan"]
+tags = [
+    "Docker Compose",
+    "NixOS",
+    "Nix Flakes",
+    "Configuration Files",
+    
+    "(Platform) Homelab",
+]
+enry.result = [{color = "#7e7eff", language = "Nix", percentage = 100.0, size = "4354"}]
+
+[interchange.projects.restepper]
+name = "sota staircase ReStepper"
+description = "forge.joshwel.co-to-github one way sync script for school projects"
+urls = ["https://github.com/markjoshwel/Depot/tree/main/ReStepper"]
+tags = [
+    "Python",
+    
+    "(Platform) Terminal",
+    
+    "(Interface) CLI",
+
+    "(Features) Python / Automation",
+    "(Features) Git / Git Integration",
+    "(Features) Programming / Command Invocation",
+
+    "(Licencing) 0BSD",
+]
+enry.subdirectory = "ReStepper"
+enry.result = [{color = "#3572A5", language = "Python", percentage = 100.0, size = "36839"}]
 
 [interchange.projects.id-asg1]
 name = "Interactive Development Assignment 1 (School Assignment)"
@@ -201,6 +279,14 @@ tags = [
     "Tailwind",
     "JavaScript",
     "Bun",
+    
+    "(Platform) Web",
+    
+    "(Interface) Website",
+
+    "(Features) Responsive Web Design",
+    "(Features) Active Interactive Web Elements",
+
     "(Licencing) ARR",
     "(Licencing) OFL-1.1",
     "(Licencing) MIT",
@@ -218,6 +304,13 @@ tags = [
     "Peripherals / Keyboards / QMK Firmware",
     "Makefile",
     "Devbox",
+    
+    "(Platform) Linux",
+    "(Platform) Hardware / Peripherals",
+    
+    "(Interface) CLI",
+    "(Interface) Interactive Physical Interface",
+
     "(Licencing) GPL-3.0",
     "(Licencing) GPL-2.0",
 ]
@@ -232,6 +325,13 @@ tags = [
     "CSS",
     "Tailwind",
     "Node.js",
+    
+    "(Platform) Web",
+    
+    "(Interface) Website",
+
+    "(Features) Responsive Web Design",
+
     "(Licencing) UNLICENSE",
 ]
 urls = [
@@ -246,7 +346,17 @@ description = "simple game based on the hare and hounds board game"
 tags = [
     "Godot",
     "GDScript",
+
+    "(Platform) Windows",
+    "(Platform) Android",
+
+    "(Interface) PC Game",
+    "(Interface) Mobile Game",
+
+    "(Activity) Cross-platform Game Development",
+
     "(Tooling) Adobe Illustrator",
+
     "(Licencing) UNLICENSE",
     "(Licencing) OFL-1.0",
 ]

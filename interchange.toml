@@ -54,13 +54,17 @@ enry.result = [{color = "#ec915c", language = "Zig", percentage = 100.0, size = 
 
 [interchange.projects.irodorio4-presplit]
 name = "irodorio4 and mido4"
-description = "a userspace driver and hardware abstraction layer and userspace midi device driver for a chunithm controller"
+description = "a poc/demo hardware abstraction layer and userspace midi device driver for a chunithm controller"
 urls = ["https://github.com/markjoshwel/Depot/tree/main/irodorio4"]
 tags = [
     "Python",
-    "Zig",
 
-    "(Platform) Windows",
+    "(Platform) Desktop",
+
+    "(Libraries) rtmidi",
+    "(Libraries) Python / rich",
+    "(Libraries) Python / hidapi",
+    "(Libraries) Python / pyserial",
 
     "(Interface) Interactive Physical Interface",
     "(Interface) Desktop Application",
@@ -71,6 +75,8 @@ tags = [
 
     "(Input Methods) Game Controllers",
 
+    "(Features) Hardware / Serial / Serial Communication",
+    "(Features) Hardware / Human Interface Devices / HID Communication",
     "(Features) Hardware / Hardware Abstraction Layer",
     "(Features) Peripherals, Device Driver / Userspace Driver",
     "(Features) Peripherals / MIDI / MIDI Devices / Userspace MIDI Device",
@@ -89,11 +95,14 @@ tags = [
 
     "(Interface) CLI",
 
+    "(Integrations) Windows / Win32 API / Component Object Model (COM)",
+
     "(Libraries) Python / pywin32",
     "(Libraries) Windows / Win32 API",
 
-    "(Features) Windows / Win32 API / Component Object Model (COM)",
     "(Features) Python / Automation",
+    "(Features) Visual, Vector Graphics / Data Visualisation",
+    "(Features) Adobe Illustrator / Adobe Illustrator VBScript",
 
     "(Tooling) Adobe Illustrator",
 
@@ -115,7 +124,7 @@ tags = [
     "(Libraries) Python / TOML Kit | TOMLKit",
 
     "(Features) Data Validation",
-    
+
     "(Tooling) GitHub Actions",
 
     "(Licencing) UNLICENSE",
@@ -144,7 +153,7 @@ tags = [
     "(Features) iOS / iOS Shortcuts / iOS Shortcuts Emulation",
     "(Features) Communication / Instant Messengers / Telegram / Telegram Automation",
     "(Features) Communication / Instant Messengers / WhatsApp / WhatsApp Automation",
-    
+
     "(Tooling) GitHub Actions",
 
     "(Licencing) UNLICENSE",
@@ -316,7 +325,7 @@ tags = [
 
     "(Interface) CLI",
     "(Interface) Interactive Physical Interface",
-    
+
     "(Tooling) GitHub Actions",
 
     "(Licencing) GPL-3.0",

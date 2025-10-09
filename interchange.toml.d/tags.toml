@@ -25,7 +25,7 @@
 #
 # note on tag aliases:
 #     only valid for main tags
-# 
+#
 #     'J / K | L / M' -> invalid, don't alias in the middle of a backlink path
 #     'J / K / L | M' -> valid, aliasing at the end for a main tag is ok
 #
@@ -43,13 +43,13 @@
 #     it is recommended to use prefix the category name in brackets
 #     to override what would be the inferred main tag category via
 #     its backlinks
-# 
+#
 #     example: the project messes with audio metadata
 #         "(Features) Audio Metadata"
-# 
+#
 #         without the bracketed category override, it would be inferred
 #         to be under the `File Formats` category
-#     
+#
 #     although i use the verbiage "override", the original category
 #     of Audio Metadata (File Formats) is preserved as an 'indirect'
 #     category and depending on what you do with indirect categories,
@@ -59,20 +59,20 @@
 #     this list is non-exhaustive, however, if listing a new tag,
 #     it must have a backlink to a tag listed here
 #     (or just add it to the reference list)
-# 
+#
 #     example: the TASOLLER, a game controller (hardware) not listed here
 #         "Peripherals / Game Controllers / TASOLLER"
-# 
+#
 #         why: `Hardware / Peripherals` is listed here under hardware,
-#         so the TASOLLER tag is inferred to be hardware 
-# 
+#         so the TASOLLER tag is inferred to be hardware
+#
 #     example: whatsmeow, a go library, not listed here
 #         "(Libraries) Go / whatsmeow"
-# 
+#
 #         why: Go is listed here under `Languages, Formats and Tooling`
 #         so prefixing it with a bracketed category name denotes that
 #         the tag whatsmeow is under the `Libraries` category
-# 
+#
 #     prefixing the projects tag with `(<category>)` is the way to go
 #
 # expanding examples:
@@ -92,10 +92,10 @@
     "Interactive / User Experience | UX",
     "UX / UX Research",
     "UX / UX Design",
-    
+
     "Design, UI / UI Research",
     "Design, UI / UI Design",
-    
+
     "Visual, Design / Visual Design",
     "Visual, Design / Graphic Design",
 
@@ -111,7 +111,7 @@
     "Audial, Design / Music / Music Transcription",
 
     "Design / Computer-Aided Design | CAD",
-    
+
     "Programming / Game Development",
     "Game Development, Desktop, GUI / PC Game Development",
     "Game Development, Console, GUI / Console Game Development",
@@ -140,7 +140,7 @@
     "SoC / Raspberry Pi",
     "Raspberry Pi / Raspberry Pi Zero 2 W",
     "Raspberry Pi / Raspberry Pi Pico 2",
-    
+
     "Hardware / Peripherals",
 ]
 
@@ -189,11 +189,11 @@
     "Mobile, GUI / Mobile Application",
     "Mobile Application, Android / Android Application",
     "Mobile Application, iOS / iOS Application",
-    
+
     "GUI / Game",
     "Desktop, Game / PC Game",
     "Console, Game / Console Game",
-    
+
     "Game, Mobile / Mobile Game",
     "Mobile Game, Android / Android Game",
     "Mobile Game, iOS / iOS Game",
@@ -202,10 +202,10 @@
     "Non-interactive / Code Excerpt",
     "Non-interactive / Library",
     "Non-interactive / Framework",
-    
+
     "Interface / Device Driver",
     "Interface / Device Firmware",
-    
+
     "Interface / Physical",
     "Physical, Non-Interactive / Non-Interactive Physical Interface",  # clock
     "Physical, Interactive / Interactive Physical Interface",  # anything with buttons, knobs, etc
@@ -220,12 +220,12 @@
     "Input Methods, Peripherals / Touchscreen",
     "Input Methods, Peripherals / Game Controllers",
     "Input Methods, Peripherals / Drawing Tablets",
-    
+
     "Input Methods, Peripherals / Scanners and Readers",
     "Scanners and Readers / Barcode Scanner",
     "Scanners and Readers / RFID Reader",
     "Scanners and Readers / NFC Reader",
-    
+
     "Input Methods / Biometrics",
     "Biometrics / Fingerprint Scanner",
     "Biometrics / Iris Scanner",
@@ -238,7 +238,7 @@
     "Input Methods, Computer Vision / Eyebrow Tracking",
     "Input Methods, Computer Vision / Mouth Tracking",
     "Input Methods, Computer Vision / Facial Tracking",
-    
+
     "Input Methods / Face Scanning",
     "Input Methods, Signal Processing / Brain-Computer Interface",
 ]
@@ -248,13 +248,13 @@
 
     "Programming Languages / Interpreted Programming Languages | Interpreted",
     "Programming Languages / Compiled Programming Languages | Compiled",
-    
+
     "Programming Languages / Execution / Interpreters",
     "Programming Languages / Translation / Compilers",
     "Programming Languages / Translation / Transpilers",
     "Programming Languages / Typing / Dynamically-Typed",
     "Programming Languages / Typing / Statically-Typed",
-    
+
     # shell
     "Interpreted / Shell",
     "Shell / Bash",
@@ -274,7 +274,7 @@
     "Compiled, Statically-Typed / C",
     "Compiled, Statically-Typed / C++",
     "Compiled, Interpreted, Statically-Typed / C#",
-    
+
     # web
     # id rather html be here than in file formats
     "Interpreted, Dynamically-Typed / JavaScript",
@@ -289,7 +289,7 @@
     "JavaScript Runtimes / Node.js",
     "JavaScript Runtimes / Bun",
     "JavaScript Runtimes / Deno",
-    
+
     "Web / HTML | HyperText Markup Language",
     "Web / CSS | Cascading Style Sheets",
 
@@ -304,7 +304,7 @@
     "Compiled, Statically-Typed / Odin",
     "Compiled, Statically-Typed / Roc",
     "Compiled, Statically-Typed / Jai",
-    
+
     "Interpreted, Dynamically-Typed / Nix",
     "Compiled, Statically-Typed / Haskell",
     "Compiled, Statically-Typed / OCaml",
@@ -361,20 +361,24 @@
     "Audial / Audio Creation",
     "Audial / Audio Manipulation",
     "Audial / Audio Encoding",
-    
+
     "Programming / Multithreading",
     "Programming / Multiprocessing",
     "Programming / Data Validation",
-    
+
     "Web / Responsive Web Design",
     "Web / Progressive Web Apps",
     "Web / Web Components",
     "Web / Web Animations",
     "Web / Web Visualisations",
-    
+
     "Interactive, Web Animations / Interactive Web Animations",
     "Interactive, Web Visualisations / Interactive Web Visualisations",
     "Interactive, Web / Active Interactive Web Elements",
+
+    "Programming / Continuous Integration",
+    "Programming / Continuous Deployment",
+    "Continuous Integration, Continuous Deployment / CI\\/CD"
 ]
 
 "Frameworks and Engines" = [
@@ -387,7 +391,7 @@
     "React / React Native",
     "React Native / Expo",
     "CSS / Tailwind | Tailwind CSS",
-    
+
     # uislop
     "Frameworks, Swift / SwiftUI",
     "Frameworks, Dart / Flutter",
@@ -409,12 +413,12 @@
     "File Formats, Textual / Markdown",
     "File Formats, Textual / Typst",
     "File Formats, Textual / Plaintext | Plain Text",
-    
+
     # text / plaintext
     "Plaintext / Plain Text Accounting / hledger",
     "Plaintext / Plain Text Accounting / Ledger",
     "File Formats / Configuration Files",
-    
+
     # text / serdes-able formats
     "File Formats, macOS / Property List",
     "File Formats / JSON | JavaScript Object Notation",
@@ -427,12 +431,12 @@
     "File Formats / YAML | YAML Ain't Markup Language",
     "File Formats / YAML / Docker Compose | Compose",
     "File Formats, Zig, Dependency Management, Build Systems / ZON | Zig Object Notation",
-    
+
     # file formats subtags
     "File Formats / File Metadata",
     "File Formats / Lossy File Formats",
     "File Formats / Lossless File Formats",
-    
+
     # visual / images
     "Visual / Image Coding Formats",
     "Image Coding Formats, Lossy File Formats / Lossy Images",
@@ -447,7 +451,7 @@
     "JPEG / JPEG 2000",
     "JPEG / JPEG XT",
     "JPEG / JPEG XL",
-    
+
     "File Formats, Lossless Images / SVG | Scalable Vector Graphics",
 
     "File Formats, Lossless Images, Lossy Images / GIF | Graphics Interchange Format",
@@ -467,19 +471,19 @@
     "Video Coding Formats / MKV | Matroska",
     "Video Coding Formats / WMV | Windows Media Video",
     "Video Coding Formats / AV1 | AOMedia Video 1",
-    
+
     # audial
     "Audial / Audio Coding Formats",
     "Audio Coding Formats, File Metadata / Audio Metadata",
     "Audio Coding Formats, Lossy File Formats / Lossy Audio",
     "Audio Coding Formats, Lossless File Formats / Lossless Audio",
-    
+
     "File Formats, Lossy Audio / AAC | Advanced Audio Coding",
     "File Formats, Lossy Audio / MP3 | MPEG Audio Layer III",
     "File Formats, Lossy Audio, MP4 / M4A | MPEG-4 Audio",
     "File Formats, Lossless Audio / WAV | Waveform Audio File Format",
     "File Formats, Lossless Audio / FLAC | Free Lossless Audio Codec",
-    
+
     "File Formats, Audio Coding Formats / Ogg | Ogg Container Format",
     "Ogg / Ogg Vorbis",
     "Ogg / Ogg Opus",
@@ -487,6 +491,13 @@
 
 "Tooling" = [
     "Nix, Dependency Management, Build Systems / Devbox",
+
+    "CI\\/CD / GitHub Actions",
+    "CI\\/CD / GitLab CI",
+    "CI\\/CD / Jenkins",
+    "CI\\/CD / Travis CI",
+    "CI\\/CD / CircleCI",
+    "CI\\/CD / SourceHut Builds | builds.sr.ht",
 
     "Version Control / Git",
     "Version Control / Pijul",
@@ -496,7 +507,7 @@
     "Modelling / Maya",
     "Modelling, Sculpting / ZBrush",
     "Texturing / Adobe Substance Painter",
-    
+
     "Image Manipulation, Image Encoding` / ImageMagick",
     "Image Manipulation, Image Encoding` / vips",
     "Audio Manipulation, Audio Encoding / Audacity",
@@ -511,7 +522,7 @@
     "Modelling / Maya",
     "Videos / Davinci Resolve",
     "Videos / Adobe Premiere Pro",
-    
+
     "Visual / Graphics / Raster Graphics",
     "Visual Design, Raster Graphics / GIMP",
     "Visual Design, Raster Graphics / Adobe Photoshop",
@@ -536,25 +547,25 @@
     "Licencing / Dual-licenced",
 
     # format: <main tag name: full licence name> | <alias name: spdx identifier>
-    
+
     "Public Domain-Like, OSI Approved / BSD Zero Clause License | 0BSD",
     "Copyright, OSI Approved, FSF Free\\/Libre / MIT License | MIT",
     "Public Domain, OSI Approved, FSF Free\\/Libre / The Unlicense | UNLICENSE",
-    
+
     # mozilla public license
     "Weak Copyleft / Mozilla Public License | MPL",
     "MPL, OSI Approved / Mozilla Public License 1.0 | MPL-1.0",
     "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 1.1 | MPL-1.1",
     "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 2.0 | MPL-2.0",
     "MPL, OSI Approved, FSF Free\\/Libre / Mozilla Public License 2.0 (no copyleft exception) | MPL-2.0-no-copyleft-exception",
-    
+
     # gnu affero general public license
     "Strong Copyleft / Affero General Public License | AGPL",
     "AGPL / Affero General Public License v1.0 only | AGPL-1.0-only",
     "AGPL / Affero General Public License v1.0 or later | AGPL-1.0-or-later",
     "AGPL, OSI Approved, FSF Free\\/Libre / GNU Affero General Public License v3.0 only | AGPL-3.0-only",
     "AGPL, OSI Approved, FSF Free\\/Libre / GNU Affero General Public License v3.0 or later | AGPL-3.0-or-later",
-    
+
     # gnu general public license
     "Strong Copyleft / GNU General Public License | GPL",
     "GPL / GNU General Public License v1.0 only | GPL-1.0-only",
@@ -563,7 +574,7 @@
     "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v2.0 or later | GPL-2.0-or-later",
     "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v3.0 only | GPL-3.0-only",
     "GPL, OSI Approved, FSF Free\\/Libre / GNU General Public License v3.0 or later | GPL-3.0-or-later",
-    
+
     # gnu lesser general public license 2, 2.1, 3
     "Weak Copyleft / GNU Lesser General Public License | GNU Library General Public License | LGPL",
     "LGPL, OSI Approved / GNU Library General Public License v2.0 only | LGPL-2.0-only",
@@ -572,7 +583,7 @@
     "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v2.1 or later | LGPL-2.1-or-later",
     "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v3.0 only | LGPL-3.0-only",
     "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v3.0 or later | LGPL-3.0-or-later",
-    
+
     # creative commons
     "Copyright, FSF Free\\/Libre / Creative Commons Attribution 4.0 International | CC-BY-4.0",
     "Copyright, / Creative Commons Attribution Non Commercial 4.0 International | CC-BY-NC-4.0",
@@ -581,7 +592,7 @@
     "Copyright, / Creative Commons Attribution No Derivatives 4.0 International | CC-BY-ND-4.0",
     "Copyright, / Creative Commons Attribution Share Alike 4.0 International | CC-BY-SA-4.0",
     "Public Domain, Public Domain-Like / Creative Commons Zero v1.0 Universal | CC0-1.0",
-    
+
     # fonts
     "Copyright, FSF Free\\/Libre / SIL Open Font License 1.0 | OFL-1.0",
     "Copyright, OSI Approved, FSF Free\\/Libre / SIL Open Font License 1.1 | OFL-1.1",

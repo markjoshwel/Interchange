@@ -115,6 +115,8 @@ tags = [
     "(Libraries) Python / TOML Kit | TOMLKit",
 
     "(Features) Data Validation",
+    
+    "(Tooling) GitHub Actions",
 
     "(Licencing) UNLICENSE",
     "(Licencing) 0BSD",
@@ -130,6 +132,7 @@ urls = ["https://github.com/markjoshwel/surplus/tree/future"]
 tags = [
     "Python",
     "Go",
+    "Nix Flakes",
 
     "(Platform) Android / Termux",
 
@@ -141,6 +144,8 @@ tags = [
     "(Features) iOS / iOS Shortcuts / iOS Shortcuts Emulation",
     "(Features) Communication / Instant Messengers / Telegram / Telegram Automation",
     "(Features) Communication / Instant Messengers / WhatsApp / WhatsApp Automation",
+    
+    "(Tooling) GitHub Actions",
 
     "(Licencing) UNLICENSE",
     "(Licencing) MPL-2.0",
@@ -166,7 +171,7 @@ tags = [
 
     "(Interface) CLI",
 
-    "(Tooling) Audio Manipulation, Audio Encoding / qaac",
+    "(Integrations) Audio Manipulation, Audio Encoding / qaac",
 
     "(Libraries) Pillow",
     "(Libraries) Python / mutagen",
@@ -311,6 +316,8 @@ tags = [
 
     "(Interface) CLI",
     "(Interface) Interactive Physical Interface",
+    
+    "(Tooling) GitHub Actions",
 
     "(Licencing) GPL-3.0",
     "(Licencing) GPL-2.0",

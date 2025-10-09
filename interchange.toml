@@ -8,7 +8,7 @@ tags = [
     "POSIX Shell",
     "Portage",
     "Configuration Files",
-    
+
     "(Platform) Windows",
     "(Platform) macOS",
     "(Platform) Gentoo Linux",
@@ -42,11 +42,11 @@ tags = [
     "Zig",
     "Brainfuck",
     "Interpreters",
-    
+
     "(Platform) Terminal",
 
     "(Interface) CLI",
-    
+
     "(Licencing) 0BSD",
 ]
 enry.subdirectory = "zigby"
@@ -59,18 +59,18 @@ urls = ["https://github.com/markjoshwel/Depot/tree/main/irodorio4"]
 tags = [
     "Python",
     "Zig",
-    
+
     "(Platform) Windows",
-    
+
     "(Interface) Interactive Physical Interface",
     "(Interface) Desktop Application",
     "(Interface) Library",
     "(Interface) Device Driver",
-    
+
     "(Hardware) Peripherals / Game Controllers / TASOLLER",
-    
+
     "(Input Methods) Game Controllers",
-    
+
     "(Features) Hardware / Hardware Abstraction Layer",
     "(Features) Peripherals, Device Driver / Userspace Driver",
     "(Features) Peripherals / MIDI / MIDI Devices / Userspace MIDI Device",
@@ -84,19 +84,19 @@ description = "automating adobe illustrator with python for a silly form we made
 urls = ["https://github.com/markjoshwel/Depot/tree/main/sinsandvirtues"]
 tags = [
     "Python",
-    
+
     "(Platform) Windows",
 
     "(Interface) CLI",
-    
+
     "(Libraries) Python / pywin32",
     "(Libraries) Windows / Win32 API",
-    
+
     "(Features) Windows / Win32 API / Component Object Model (COM)",
     "(Features) Python / Automation",
-    
+
     "(Tooling) Adobe Illustrator",
-    
+
     "(Licencing) CC-BY-4.0",
     "(Licencing) UNLICENSE"
 ]
@@ -108,14 +108,14 @@ name = "tomlantic"
 description = "marrying pydantic models and tomlkit documents for data validated, style-preserving toml files"
 tags = [
     "Python",
-    
+
     "(Interface) Library",
-    
+
     "(Libraries) Python / Pydantic",
     "(Libraries) Python / TOML Kit | TOMLKit",
-    
+
     "(Features) Data Validation",
-    
+
     "(Licencing) UNLICENSE",
     "(Licencing) 0BSD",
     "(Licencing) Dual-licenced"
@@ -129,18 +129,19 @@ description = "Plus Code/latlong/query to iOS-Shortcuts-like shareable text"
 urls = ["https://github.com/markjoshwel/surplus/tree/future"]
 tags = [
     "Python",
-    
+    "Go",
+
     "(Platform) Android / Termux",
-    
+
     "(Interface) CLI",
-    
+
     "(Libraries) Go / whatsmeow",
     "(Libraries) Python / Telethon",
-    
+
     "(Features) iOS / iOS Shortcuts / iOS Shortcuts Emulation",
     "(Features) Communication / Instant Messengers / Telegram / Telegram Automation",
     "(Features) Communication / Instant Messengers / WhatsApp / WhatsApp Automation",
-    
+
     "(Licencing) UNLICENSE",
     "(Licencing) MPL-2.0",
     "(Licencing) CC0-1.0",
@@ -160,24 +161,24 @@ tags = [
     "FLAC",
     "Ogg Vorbis",
     "Python",
-    
+
     "(Platform) Terminal",
-    
+
     "(Interface) CLI",
-    
+
     "(Tooling) Audio Manipulation, Audio Encoding / qaac",
-    
+
     "(Libraries) Pillow",
     "(Libraries) Python / mutagen",
     "(Libraries) Python / rich",
-    
+
     "(Features) Audio Metadata",
     "(Features) MP3, Audio Metadata / ID3 Tags",
     "(Features) Ogg Vorbis, FLAC, Audio Metadata / VorbisComment | Vorbis Tags",
     "(Features) MP4, M4A, Audio Metadata / MP4 Tags | M4A Tags",
     "(Features) Programming / Command Invocation",
     "(Features) Programming / Multiprocessing",
-    
+
     "(Licencing) 0BSD",
 ]
 enry.subdirectory = "Mulipea"
@@ -189,14 +190,14 @@ description = "a fast enough .gitignore-respecting large file finder"
 tags = [
     "Rust",
     "Git / Git LFS",
-    
+
     "(Platform) Terminal",
-    
+
     "(Interface) CLI",
-    
+
     "(Features) Git / .gitignore",
     "(Features) Operating Systems / Filesystem / Filesystem Traversal",
-    
+
     "(Licencing) 0BSD"
 ]
 urls = ["https://github.com/markjoshwel/sidestepper"]
@@ -209,9 +210,9 @@ urls = ["https://github.com/markjoshwel/Depot/tree/main/unity/backend"]
 tags = [
     "C#",
     "Unity",
-    
+
     "(Interface) Code Excerpt",
-    
+
     "(Integrations) Firebase",
 ]
 enry.subdirectory = "unity/backend"
@@ -226,11 +227,11 @@ tags = [
     "Zig",
     "Brainfuck",
     "Transpilers",
-    
+
     "(Platform) Terminal",
-    
+
     "(Interface) CLI",
-    
+
     "(Licencing) 0BSD",
 ]
 enry.subdirectory = "zigbpy"
@@ -245,7 +246,7 @@ tags = [
     "NixOS",
     "Nix Flakes",
     "Configuration Files",
-    
+
     "(Platform) Homelab",
 ]
 enry.result = [{color = "#7e7eff", language = "Nix", percentage = 100.0, size = "4354"}]
@@ -256,9 +257,9 @@ description = "forge.joshwel.co-to-github one way sync script for school project
 urls = ["https://github.com/markjoshwel/Depot/tree/main/ReStepper"]
 tags = [
     "Python",
-    
+
     "(Platform) Terminal",
-    
+
     "(Interface) CLI",
 
     "(Features) Python / Automation",
@@ -279,9 +280,9 @@ tags = [
     "Tailwind",
     "JavaScript",
     "Bun",
-    
+
     "(Platform) Web",
-    
+
     "(Interface) Website",
 
     "(Features) Responsive Web Design",
@@ -304,10 +305,10 @@ tags = [
     "Peripherals / Keyboards / QMK Firmware",
     "Makefile",
     "Devbox",
-    
+
     "(Platform) Linux",
     "(Platform) Hardware / Peripherals",
-    
+
     "(Interface) CLI",
     "(Interface) Interactive Physical Interface",
 
@@ -325,9 +326,9 @@ tags = [
     "CSS",
     "Tailwind",
     "Node.js",
-    
+
     "(Platform) Web",
-    
+
     "(Interface) Website",
 
     "(Features) Responsive Web Design",

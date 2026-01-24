@@ -26,13 +26,16 @@
           <div class="card glass">
             <h2 class="card-title">Validate Tag</h2>
             <div class="input-group">
-              <input
-                type="text"
-                id="tag-input"
-                class="tag-input"
-                placeholder="e.g., (Platform) Hardware / Peripherals"
-                autocomplete="off"
-              />
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="tag-input"
+                  class="tag-input"
+                  placeholder="e.g., (Platform) Hardware / Peripherals"
+                  autocomplete="off"
+                />
+                <div id="autocomplete-list" class="autocomplete-items hidden"></div>
+              </div>
               <button id="validate-btn" class="btn btn-primary">
                 <span class="btn-text">Validate</span>
                 <span class="btn-icon">→</span>

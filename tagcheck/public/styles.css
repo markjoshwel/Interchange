@@ -205,8 +205,8 @@ body::before {
 }
 
 .tag-input {
-  flex: 1;
-  min-width: 250px;
+  width: 100%;
+  min-width: 0; /* Allow shrinking if needed */
   padding: var(--space-md) var(--space-lg);
   background: var(--bg-secondary);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -229,6 +229,122 @@ body::before {
   color: var(--text-muted);
 }
 
+/* Controls Container */
+.nav-controls {
+  margin-bottom: var(--space-md);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+/* Dropdown Menu */
+.dropdown-container {
+  position: relative;
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-glass-hover);
+  color: var(--text-primary);
+  border-color: var(--accent-primary-light);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--space-xs);
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm);
+  min-width: 250px;
+  max-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+.hidden {
+  display: none;
+}
+
+.menu-group {
+  margin-bottom: var(--space-md);
+}
+
+.menu-group-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: var(--space-xs) var(--space-sm);
+  font-weight: 600;
+}
+
+.menu-item {
+  display: block;
+  padding: var(--space-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--transition-fast);
+}
+
+.menu-item:hover {
+  background: rgba(124, 58, 237, 0.15);
+  color: var(--accent-primary-light);
+}
+
+/* Autocomplete List */
+.autocomplete-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+}
+
+.autocomplete-item {
+  padding: var(--space-sm) var(--space-lg);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.9rem;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover, .autocomplete-active {
+  background-color: var(--bg-glass-hover);
+  color: var(--accent-primary-light);
+}
+
+.autocomplete-item strong {
+  color: var(--accent-primary);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -238,6 +354,7 @@ body::before {
   border: none;
   border-radius: var(--radius-lg);
   font-size: 1rem;
+  font-family: inherit;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);

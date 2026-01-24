@@ -13,7 +13,7 @@ let currentGraph = null;
 let TagValidator = null;
 
 // DOM Elements (initialized after DOM load)
-let tagInput, validateBtn, resultDiv, resultStatus, resultDetails, graphSvg, exampleBtns, breadcrumbsDiv;
+let tagInput, validateBtn, resultDiv, resultStatus, resultDetails, graphSvg, exampleBtns, breadcrumbsDiv, autocompleteList;
 
 /**
  * Initialize the application
@@ -28,6 +28,7 @@ async function init() {
   graphSvg = document.getElementById('graph-svg');
   exampleBtns = document.querySelectorAll('.example-btn');
   breadcrumbsDiv = document.getElementById('breadcrumbs');
+  autocompleteList = document.getElementById('autocomplete-list');
   
   try {
     // Load the bundled validator module
@@ -40,6 +41,9 @@ async function init() {
     
     // Setup event listeners
     setupEventListeners();
+    
+    // Setup autocomplete
+    setupAutocomplete();
     
     // Show initial graph with a sample tag
     showTagGraph('Python');
@@ -73,6 +77,8 @@ function setupEventListeners() {
   tagInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       handleValidate();
+      // Hide autocomplete on Enter
+      if (autocompleteList) autocompleteList.classList.add('hidden');
     }
   });
   
@@ -82,6 +88,64 @@ function setupEventListeners() {
       const tag = btn.dataset.tag;
       tagInput.value = tag;
       handleValidate();
+    });
+  });
+  
+  // Close dropdowns on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.input-wrapper')) {
+      autocompleteList?.classList.add('hidden');
+    }
+  });
+}
+
+/**
+ * Setup autocomplete for the search box
+ */
+function setupAutocomplete() {
+  if (!tagInput || !autocompleteList) return;
+  
+  tagInput.addEventListener('input', () => {
+    const val = tagInput.value;
+    if (!val || val.length < 2) {
+      autocompleteList.classList.add('hidden');
+      return;
+    }
+    
+    // Get last segment if typing a path
+    // We want to autocomplete the current tag being typed
+    // Logic: Split by / and take the last part
+    // But for now, let's keep it simple: global search for the typed text
+    // The user requirement implies full search ("swift" -> "Swift")
+    
+    const results = TagValidator.searchTags(tagRegistry, val);
+    
+    if (results.length === 0) {
+      autocompleteList.classList.add('hidden');
+      return;
+    }
+    
+    autocompleteList.innerHTML = '';
+    autocompleteList.classList.remove('hidden');
+    
+    results.slice(0, 10).forEach(match => {
+      const div = document.createElement('div');
+      div.className = 'autocomplete-item';
+      
+      // Highlight matching part
+      const regex = new RegExp(`(${val})`, 'gi');
+      const highlighted = match.replace(regex, '<strong>$1</strong>');
+      div.innerHTML = highlighted;
+      
+      div.addEventListener('click', () => {
+        // Tag escape if needed
+        const escaped = TagValidator.escapeTagName(match);
+        tagInput.value = escaped;
+        autocompleteList.classList.add('hidden');
+        handleValidate();
+      });
+      
+      autocompleteList.appendChild(div);
     });
   });
 }
@@ -104,7 +168,30 @@ function handleValidate() {
   }
   
   try {
-    const result = TagValidator.validateTag(tagRegistry, tagString);
+    // Try validation directly first
+    let result = TagValidator.validateTag(tagRegistry, tagString);
+    
+    // If invalid, try fuzzy finding the main tag
+    if (!result.valid) {
+      const parsed = TagValidator.parseTag(tagString);
+      const fuzzyMatch = TagValidator.findTag(tagRegistry, parsed.mainTag);
+      
+      if (fuzzyMatch && fuzzyMatch !== parsed.mainTag) {
+        // Found a better casing or match, try validating with that
+        // Reconstruct the tag string with the corrected main tag
+        // Note: this only corrects the final tag segment, assuming backlinks are correct-ish
+        // or we just validate the found tag directly if it was a fuzzy search for a single term
+        
+        if (parsed.backlinks.length === 0) {
+          // Simple case: just replace the input
+          const corrected = TagValidator.escapeTagName(fuzzyMatch);
+          // Only update input if it's a simple search
+          // tagInput.value = corrected; 
+          result = TagValidator.validateTag(tagRegistry, corrected);
+        }
+      }
+    }
+    
     showValidationResult(result);
     
     // Update graph and breadcrumbs

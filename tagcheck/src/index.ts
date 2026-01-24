@@ -26,6 +26,9 @@ export {
   getGraphEdges,
   getTagSubgraph,
   getBreadcrumbPaths,
+  findTag,
+  searchTags,
+  getRootTags,
 } from './validator';
 
 // Type exports

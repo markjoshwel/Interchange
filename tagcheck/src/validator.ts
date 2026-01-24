@@ -357,6 +357,114 @@ export function getBreadcrumbPaths(
 }
 
 /**
+ * Find a tag by name, case-insensitive.
+ * Returns the matched tag name (proper casing) or undefined.
+ */
+export function findTag(registry: TagRegistry, query: string): string | undefined {
+  const normalized = query.toLowerCase().trim();
+  
+  // 1. Exact match (fastest)
+  if (registry.tags.has(query)) return query;
+  if (registry.aliases.has(query)) return registry.aliases.get(query);
+  
+  // 2. Case-insensitive scan
+  for (const tagName of registry.tags.keys()) {
+    if (tagName.toLowerCase() === normalized) return tagName;
+  }
+  
+  for (const [alias, target] of registry.aliases) {
+    if (alias.toLowerCase() === normalized) return alias; // Return alias, let caller resolve
+  }
+  
+  return undefined;
+}
+
+/**
+ * Search tags for autocomplete.
+ * Returns matches for primary tags and aliases.
+ */
+export function searchTags(registry: TagRegistry, query: string, limit: number = 10): string[] {
+  const normalized = query.toLowerCase().trim();
+  if (!normalized) return [];
+  
+  const matches = new Set<string>();
+  
+  // Helper to add match if limit not reached
+  const add = (name: string) => {
+    if (matches.size >= limit) return false;
+    matches.add(name);
+    return true;
+  };
+  
+  // 1. Starts with query (high priority)
+  for (const tagName of registry.tags.keys()) {
+    if (tagName.toLowerCase().startsWith(normalized)) {
+      if (!add(tagName)) return Array.from(matches);
+    }
+  }
+  
+  for (const alias of registry.aliases.keys()) {
+    if (alias.toLowerCase().startsWith(normalized)) {
+      if (!add(alias)) return Array.from(matches);
+    }
+  }
+  
+  // 2. Contains query (lower priority)
+  for (const tagName of registry.tags.keys()) {
+    if (!matches.has(tagName) && tagName.toLowerCase().includes(normalized)) {
+      if (!add(tagName)) return Array.from(matches);
+    }
+  }
+  
+  for (const alias of registry.aliases.keys()) {
+    if (!matches.has(alias) && alias.toLowerCase().includes(normalized)) {
+      if (!add(alias)) return Array.from(matches);
+    }
+  }
+  
+  return Array.from(matches);
+}
+
+/**
+ * Get all root tags (tags with no backlinks/parents),
+ * grouped by their highest-level category.
+ */
+export function getRootTags(registry: TagRegistry): Record<string, string[]> {
+  const roots: Record<string, string[]> = {};
+  
+  for (const [tagName, tag] of registry.tags) {
+    // A root tag has no backlinks
+    if (tag.backlinks.length === 0) {
+      // Determine group: Use direct category if available, otherwise "Uncategorized"
+      // or try to find if it IS a category itself?
+      // The spec uses categories like "Activity", "Hardware".
+      // Often the top-level tags are the category roots themselves or direct children.
+      
+      let group = tag.directCategory || 'Uncategorized';
+      
+      // If the tag name itself appears in the categories list, it's likely a primary grouping
+      if (registry.categories.includes(tagName)) {
+        group = tagName; // It is its own group?
+      } else if (registry.categories.includes(group)) {
+        // Normal case
+      }
+      
+      if (!roots[group]) {
+        roots[group] = [];
+      }
+      roots[group].push(tagName);
+    }
+  }
+  
+  // Sort each group
+  for (const group in roots) {
+    roots[group].sort();
+  }
+  
+  return roots;
+}
+
+/**
  * Get all edges for building a graph representation
  */
 export function getGraphEdges(registry: TagRegistry): Array<{ from: string; to: string }> {

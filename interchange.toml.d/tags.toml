@@ -263,15 +263,16 @@
     "Programming Languages / Translation / Transpilers",
     "Programming Languages / Typing / Dynamically-Typed",
     "Programming Languages / Typing / Statically-Typed",
+    "Programming Languages / Scripting",
 
     # shell
-    "Interpreted / Shell",
+    "Interpreted, Scripting / Shell",
     "Shell / Bash",
     "Shell / POSIX Shell",
     "Shell / Nushell",
     "Shell / Fish",
-    "Interpreted, Windows / PowerShell",
-    "Interpreted, Windows / Batch",
+    "Interpreted, Windows, Scripting / PowerShell",
+    "Interpreted, Windows, Scripting / Batch",
 
     # dpc
     "Interpreted, Data Processing Counterlanguage",
@@ -281,12 +282,12 @@
     "Interpreted, Dynamically-Typed / Python",
     "Python, Statically-Typed / mypy",
     "Compiled, Statically-Typed / C",
-    "Compiled, Statically-Typed / C++",
-    "Compiled, Interpreted, Statically-Typed / C#",
+    "Compiled, Statically-Typed / C++ | CPP",
+    "Compiled, Interpreted, Statically-Typed / C# | C-Sharp | csharp",
 
     # web
-    "Interpreted, Dynamically-Typed / JavaScript",
-    "JavaScript, Statically-Typed / TypeScript",
+    "Interpreted, Dynamically-Typed / JavaScript | JS",
+    "JavaScript, Statically-Typed / TypeScript | TS",
 
     "JavaScript / JavaScript Engines",
     "JavaScript Engines / V8",
@@ -302,7 +303,7 @@
     "Compiled, Statically-Typed / Swift",
     "Compiled, Statically-Typed / Dart",
 
-    "Compiled, Statically-Typed / Go",
+    "Compiled, Statically-Typed / Go | Golang",
     "Compiled, Statically-Typed / Rust",
     "Compiled, Statically-Typed / Zig",
 

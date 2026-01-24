@@ -107,7 +107,7 @@ function setupAutocomplete() {
   
   tagInput.addEventListener('input', () => {
     const val = tagInput.value;
-    if (!val || val.length < 2) {
+    if (val.length === 0) {
       autocompleteList.classList.add('hidden');
       return;
     }
@@ -118,7 +118,8 @@ function setupAutocomplete() {
     // But for now, let's keep it simple: global search for the typed text
     // The user requirement implies full search ("swift" -> "Swift")
     
-    const results = TagValidator.searchTags(tagRegistry, val);
+    // Pass high limit to show "everything"
+    const results = TagValidator.searchTags(tagRegistry, val, 1000);
     
     if (results.length === 0) {
       autocompleteList.classList.add('hidden');
@@ -128,7 +129,8 @@ function setupAutocomplete() {
     autocompleteList.innerHTML = '';
     autocompleteList.classList.remove('hidden');
     
-    results.slice(0, 10).forEach(match => {
+    // Show all results (up to the limit we fetched)
+    results.forEach(match => {
       const div = document.createElement('div');
       div.className = 'autocomplete-item';
       

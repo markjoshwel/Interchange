@@ -141,6 +141,42 @@ export function buildRegistry(tagsToml: TagsToml): TagRegistry {
     }
   }
   
+
+
+  // Third pass: Normalize registry by merging ghost tags (created from backlinks) into main tags
+  // and resolving all links to main tags.
+  
+  // 1. Merge ghost tags
+  for (const [alias, mainTag] of aliases) {
+    if (tags.has(alias)) {
+      const ghost = tags.get(alias)!;
+      const main = tags.get(mainTag);
+      
+      if (main) {
+        // Merge links
+        for (const fl of ghost.frontlinks) {
+          if (!main.frontlinks.includes(fl)) main.frontlinks.push(fl);
+        }
+        for (const bl of ghost.backlinks) {
+          if (!main.backlinks.includes(bl)) main.backlinks.push(bl);
+        }
+      }
+      
+      // Remove ghost tag
+      tags.delete(alias);
+    }
+  }
+  
+  // 2. Resolve all links in remaining tags
+  for (const tag of tags.values()) {
+    tag.backlinks = tag.backlinks.map(bl => aliases.get(bl) || bl);
+    tag.frontlinks = tag.frontlinks.map(fl => aliases.get(fl) || fl);
+    
+    // Deduplicate after replacement
+    tag.backlinks = [...new Set(tag.backlinks)];
+    tag.frontlinks = [...new Set(tag.frontlinks)];
+  }
+  
   return { tags, aliases, categories };
 }
 
@@ -322,7 +358,9 @@ export function getBreadcrumbPaths(
   function buildPaths(currentTag: string, currentPath: string[], depth: number): void {
     if (depth > maxDepth) return;
     
-    const tag = registry.tags.get(currentTag);
+    // Resolve alias to find the actual tag definition
+    const resolvedTag = resolveAlias(registry, currentTag);
+    const tag = registry.tags.get(resolvedTag);
     if (!tag) {
       // Tag doesn't exist in registry - this is a leaf/root
       paths.push([...currentPath]);
@@ -373,7 +411,7 @@ export function findTag(registry: TagRegistry, query: string): string | undefine
   }
   
   for (const [alias, target] of registry.aliases) {
-    if (alias.toLowerCase() === normalized) return alias; // Return alias, let caller resolve
+    if (alias.toLowerCase() === normalized) return target; // Return resolved main tag
   }
   
   return undefined;
@@ -384,6 +422,11 @@ export function findTag(registry: TagRegistry, query: string): string | undefine
  * Returns matches for primary tags and aliases.
  */
 export function searchTags(registry: TagRegistry, query: string, limit: number = 10): string[] {
+  // Hack: single space returns all tags (up to limit)
+  if (query === ' ') {
+    return Array.from(registry.tags.keys()).sort().slice(0, limit);
+  }
+
   const normalized = query.toLowerCase().trim();
   if (!normalized) return [];
   
@@ -440,13 +483,19 @@ export function getRootTags(registry: TagRegistry): Record<string, string[]> {
       // The spec uses categories like "Activity", "Hardware".
       // Often the top-level tags are the category roots themselves or direct children.
       
-      let group = tag.directCategory || 'Uncategorized';
+      let group = tag.directCategory;
+      
+      if (!group && tag.indirectCategories.length > 0) {
+        group = tag.indirectCategories[0];
+      }
+      
+      if (!group) {
+        group = 'Uncategorized';
+      }
       
       // If the tag name itself appears in the categories list, it's likely a primary grouping
       if (registry.categories.includes(tagName)) {
-        group = tagName; // It is its own group?
-      } else if (registry.categories.includes(group)) {
-        // Normal case
+        group = tagName; 
       }
       
       if (!roots[group]) {

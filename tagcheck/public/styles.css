@@ -196,6 +196,8 @@ body::before {
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 10;
 }
 
 .input-group {
@@ -313,7 +315,7 @@ body::before {
   top: 100%;
   left: 0;
   right: 0;
-  z-index: 99;
+  z-index: 1000;
   background: var(--bg-secondary);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-top: none;
@@ -530,6 +532,8 @@ body::before {
 /* Graph Section */
 .graph-section {
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .graph-container {

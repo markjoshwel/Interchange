@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tagcheck - Interchange Tag Validator</title>
+    <meta
+      name="description"
+      content="Validate and visualize Interchange tag relationships"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1 class="title">
+          <span class="title-icon">🏷️</span>
+          <span>Tagcheck</span>
+        </h1>
+        <p class="subtitle">Interchange Tag Validator</p>
+      </header>
+
+      <main class="main">
+        <section class="validator-section">
+          <div class="card glass">
+            <h2 class="card-title">Validate Tag</h2>
+            <div class="input-group">
+              <input
+                type="text"
+                id="tag-input"
+                class="tag-input"
+                placeholder="e.g., (Platform) Hardware / Peripherals"
+                autocomplete="off"
+              />
+              <button id="validate-btn" class="btn btn-primary">
+                <span class="btn-text">Validate</span>
+                <span class="btn-icon">→</span>
+              </button>
+            </div>
+
+            <div id="result" class="result hidden">
+              <div id="result-status" class="result-status"></div>
+              <div id="result-details" class="result-details"></div>
+            </div>
+            
+            <div id="breadcrumbs" class="breadcrumbs"></div>
+          </div>
+        </section>
+
+        <section class="graph-section">
+          <div class="card glass">
+            <h2 class="card-title">Backlink Graph</h2>
+            <p class="card-description">Visualizing tag relationships</p>
+            <div id="graph-container" class="graph-container">
+              <svg id="graph-svg"></svg>
+            </div>
+            <div id="graph-legend" class="graph-legend">
+              <div class="legend-item">
+                <span class="legend-dot center"></span>
+                <span>Selected Tag</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot backlink"></span>
+                <span>Backlinks (Parents)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot frontlink"></span>
+                <span>Frontlinks (Children)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="examples-section">
+          <div class="card glass">
+            <h2 class="card-title">Examples</h2>
+            <div class="examples-grid">
+              <button class="example-btn" data-tag="Python">Python</button>
+              <button
+                class="example-btn"
+                data-tag="(Platform) Hardware / Peripherals"
+              >
+                (Platform) Hardware / Peripherals
+              </button>
+              <button class="example-btn" data-tag="CI\/CD / GitHub Actions">
+                CI/CD → GitHub Actions
+              </button>
+              <button class="example-btn" data-tag="JavaScript | JS">
+                JavaScript (alias)
+              </button>
+              <button class="example-btn" data-tag="Design, UI / UI Design">
+                Union Backlink
+              </button>
+              <button
+                class="example-btn"
+                data-tag="(Libraries) Python / CustomLib"
+              >
+                Custom Library
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Part of the <a href="../">Interchange</a> project</p>
+      </footer>
+    </div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

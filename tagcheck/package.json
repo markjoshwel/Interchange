@@ -1,0 +1,24 @@
+{
+  "name": "tagcheck",
+  "version": "1.0.0",
+  "description": "Tag validator for Interchange tags.toml",
+  "module": "src/index.ts",
+  "main": "dist/index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run build && bun run server.ts",
+    "build": "bun build src/index.ts --outdir dist --target browser",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5"
+  }
+}

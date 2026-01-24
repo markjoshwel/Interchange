@@ -1,0 +1,20 @@
+[interchange.projects.project-name]
+name = "project name"
+description = "..."
+urls = ["..."]
+tags = [
+    # "Python",
+    # "Nix Flakes",
+    # "POSIX Shell",
+    # "Portage",
+    # "Configuration Files",
+
+    # "(Platform) Windows",
+    # "(Platform) macOS",
+    # "(Platform) Gentoo Linux",
+    # "(Platform) Terminal",
+
+    # "(Interface) CLI",
+
+    # ...
+]

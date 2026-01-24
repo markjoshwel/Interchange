@@ -104,7 +104,7 @@
     "Visual, Design / Animation",
 
     "Audial, Design / Sound Design",
-    "Audial, Design / Sound Synthesis",  # pure data, etc
+    "Audial, Design / Sound Synthesis",             # pure data, etc
     "Audial, Design / Music / Music Composition",
     "Audial, Design / Music / Music Production",
     "Audial, Design / Music / Music Arrangement",
@@ -145,6 +145,7 @@
 ]
 
 "Platform" = [
+    "Platform",
     # main platform classes
     "Operating Systems, Desktop / Windows",
     "Operating Systems, Desktop / Linux",
@@ -156,7 +157,8 @@
     "Operating Systems, Mobile / visionOS",
 
     # 'second-thought' platform classes
-    "Web", "Docker",
+    "Web",
+    "Docker",
     "Windows, Linux, macOS / Terminal",
 
     # linux distros
@@ -164,13 +166,20 @@
     "Linux / NixOS",
 
     # deployment
-    "Bare Metal", "Server", "Embedded", "Server / Homelab",
+    "Bare Metal",
+    "Server",
+    "Embedded",
+    "Server / Homelab",
 
     # webdev and it brainrot slop terms
     "Frontend | Front-end | Front End",
     "Backend | Back-end | Back End",
     "Fullstack | Full Stack",
-    "Cloud", "Edge", "Fog", "IoT", "Serverless",
+    "Cloud",
+    "Edge",
+    "Fog",
+    "IoT",
+    "Serverless",
 
     # platform features
     "Gentoo Linux, Package Management / Portage",
@@ -207,8 +216,8 @@
     "Interface / Device Firmware",
 
     "Interface / Physical",
-    "Physical, Non-Interactive / Non-Interactive Physical Interface",  # clock
-    "Physical, Interactive / Interactive Physical Interface",  # anything with buttons, knobs, etc
+    "Physical, Non-Interactive / Non-Interactive Physical Interface", # clock (even if it has a dial to move the hands)
+    "Physical, Interactive / Interactive Physical Interface",         # anything with buttons, knobs, etc
 ]
 
 "Input Methods" = [
@@ -276,7 +285,6 @@
     "Compiled, Interpreted, Statically-Typed / C#",
 
     # web
-    # id rather html be here than in file formats
     "Interpreted, Dynamically-Typed / JavaScript",
     "JavaScript, Statically-Typed / TypeScript",
 
@@ -289,9 +297,6 @@
     "JavaScript Runtimes / Node.js",
     "JavaScript Runtimes / Bun",
     "JavaScript Runtimes / Deno",
-
-    "Web / HTML | HyperText Markup Language",
-    "Web / CSS | Cascading Style Sheets",
 
     # newer languages
     "Compiled, Statically-Typed / Swift",
@@ -376,9 +381,9 @@
     "Interactive, Web Visualisations / Interactive Web Visualisations",
     "Interactive, Web / Active Interactive Web Elements",
 
-    "Programming / Continuous Integration",
-    "Programming / Continuous Deployment",
-    "Continuous Integration, Continuous Deployment / CI\\/CD"
+    "Programming / Continuous Integration | CI",
+    "Programming / Continuous Deployment | CD",
+    "Continuous Integration, Continuous Deployment / CI\\/CD",
 ]
 
 "Frameworks and Engines" = [
@@ -395,7 +400,7 @@
     # uislop
     "Frameworks, Swift / SwiftUI",
     "Frameworks, Dart / Flutter",
-    "Frameworks, Kotlin / Jetpack Compose"
+    "Frameworks, Kotlin / Jetpack Compose",
 ]
 
 "Integrations" = [
@@ -404,8 +409,9 @@
     "Cloud / Amazon Web Services | AWS",
     "Cloud / Microsoft Azure | Azure",
     "Cloud / Google Cloud Platform | GCP",
-    "LTA DataMall",
-    "LTA DataMall",
+
+    "Application Programming Interface | API",
+    "API / LTA DataMall",
 ]
 
 "File Formats" = [
@@ -418,6 +424,10 @@
     "Plaintext / Plain Text Accounting / hledger",
     "Plaintext / Plain Text Accounting / Ledger",
     "File Formats / Configuration Files",
+
+    # web
+    "Web / HTML | HyperText Markup Language",
+    "Web / CSS | Cascading Style Sheets",
 
     # text / serdes-able formats
     "File Formats, macOS / Property List",
@@ -513,9 +523,12 @@
     "Audio Manipulation, Audio Encoding / Audacity",
     "Audio Manipulation, Audio Encoding / ffmpeg",
 
-    "Audio Manipulation / Digital Audio Workstation / Pro Tools",
-    "Audio Manipulation / Digital Audio Workstation / Reaper",
-    "Audio Manipulation / Digital Audio Workstation / Renoise",
+    "Audio Manipulation / Digital Audio Workstation | DAW",
+    "DAW / Pro Tools",
+    "DAW / Reaper",
+    "DAW / Renoise",
+    "DAW / Ableton Live",
+    "DAW / Fruity Loops | FL Studio",
     "Audial / Notation / MuseScore",
 
     "Modelling / Blender",
@@ -585,15 +598,116 @@
     "LGPL, OSI Approved, FSF Free\\/Libre / GNU Lesser General Public License v3.0 or later | LGPL-3.0-or-later",
 
     # creative commons
-    "Copyright, FSF Free\\/Libre / Creative Commons Attribution 4.0 International | CC-BY-4.0",
-    "Copyright, / Creative Commons Attribution Non Commercial 4.0 International | CC-BY-NC-4.0",
-    "Copyright, / Creative Commons Attribution Non Commercial No Derivatives 4.0 International | CC-BY-NC-ND-4.0",
-    "Copyright, / Creative Commons Attribution Non Commercial Share Alike 4.0 International | CC-BY-NC-SA-4.0",
-    "Copyright, / Creative Commons Attribution No Derivatives 4.0 International | CC-BY-ND-4.0",
-    "Copyright, / Creative Commons Attribution Share Alike 4.0 International | CC-BY-SA-4.0",
-    "Public Domain, Public Domain-Like / Creative Commons Zero v1.0 Universal | CC0-1.0",
+    "Copyright / Creative Commons",
+    "FSF Free\\/Libre, Creative Commons / Creative Commons Attribution 4.0 International | CC-BY-4.0",
+    "Creative Commons / Creative Commons Attribution Non Commercial 4.0 International | CC-BY-NC-4.0",
+    "Creative Commons / Creative Commons Attribution Non Commercial No Derivatives 4.0 International | CC-BY-NC-ND-4.0",
+    "Creative Commons / Creative Commons Attribution Non Commercial Share Alike 4.0 International | CC-BY-NC-SA-4.0",
+    "Creative Commons / Creative Commons Attribution No Derivatives 4.0 International | CC-BY-ND-4.0",
+    "Creative Commons / Creative Commons Attribution Share Alike 4.0 International | CC-BY-SA-4.0",
+    "Public Domain, Public Domain-Like, Creative Commons / Creative Commons Zero v1.0 Universal | CC0-1.0",
 
     # fonts
     "Copyright, FSF Free\\/Libre / SIL Open Font License 1.0 | OFL-1.0",
     "Copyright, OSI Approved, FSF Free\\/Libre / SIL Open Font License 1.1 | OFL-1.1",
+]
+
+"Databases" = [
+    "Databases / SQL / PostgreSQL",
+    "Databases / SQL / SQLite",
+    "Databases / SQL / MySQL",
+    "Databases / SQL / MariaDB",
+    "Databases / NoSQL / Redis",
+    "Databases / NoSQL / MongoDB",
+    "Databases / NoSQL / Cassandra",
+    "Databases / NoSQL / Elasticsearch",
+    "Databases / Vector Database / Pinecone",
+    "Databases / Vector Database / Chroma",
+    "Databases / Vector Database / Milvus",
+    "(Databases) Programming / Data Layer / Object-Relational Mapping | ORM",
+    "ORM / SQLAlchemy",
+    "ORM / Prisma",
+    "ORM / Drizzle ORM",
+    "ORM / Entity Framework",
+]
+
+"Infrastructure" = [
+    "(Infrastructure) Platform / Infrastructure / Orchestration",
+    "Orchestration / Kubernetes | K8s",
+    "Orchestration / Nomad",
+    "Orchestration / Docker Swarm",
+    "(Infrastructure) Platform / Infrastructure / Infrastructure as Code | IaC",
+    "IaC / Terraform",
+    "IaC / OpenTofu",
+    "IaC / Pulumi",
+    "IaC / Ansible",
+    "Infrastructure / Monitoring & Observability",
+    "Monitoring & Observability / Prometheus",
+    "Monitoring & Observability / Grafana",
+    "Monitoring & Observability / Sentry",
+    "Monitoring & Observability / Datadog",
+    "(Infrastructure) Cloud / Fly.io",
+    "(Infrastructure) Cloud / Vercel",
+    "(Infrastructure) Cloud / Netlify",
+]
+
+"Security" = [
+    "Security / Authentication",
+    "Authentication / OAuth2",
+    "Authentication / OpenID Connect",
+    "Authentication / JSON Web Token | JWT",
+    "Authentication / SAML",
+    "Security / Cryptography",
+    "Cryptography / Encryption / AES",
+    "Cryptography / Hashing / Argon2",
+    "Cryptography / Public Key Infrastructure | PKI",
+    "(Security) Platform / Networking",
+    "Networking / Reverse Proxy / Nginx",
+    "Networking / Reverse Proxy / Caddy",
+    "Networking / Reverse Proxy / Traefik",
+    "Networking / Protocols / gRPC",
+    "Networking / Protocols / WebRTC",
+    "Networking / Protocols / MQTT",
+    "Networking / Protocols / HTTP\\/3",
+    "Networking / Protocols / WebSocket",
+]
+
+"Methodologies" = [
+    "(Methodologies) Programming / Engineering Methodologies",
+    "Engineering Methodologies / Testing / Unit Testing",
+    "Engineering Methodologies / Testing / Integration Testing",
+    "Engineering Methodologies / Testing / End-to-End Testing | E2E",
+    "Engineering Methodologies / Testing / Test-Driven Development | TDD",
+    "Engineering Methodologies / Architecture / Monorepo",
+    "Engineering Methodologies / Architecture / Microservices",
+    "Engineering Methodologies / Architecture / Domain-Driven Design | DDD",
+    "Engineering Methodologies / Architecture / Functional Programming",
+    "(Methodologies) Programming / Project Status",
+    "Project Status / Work in Progress | WIP",
+    "Project Status / Beta",
+    "Project Status / Stable",
+    "Project Status / Legacy | Archived",
+    "Project Status / Experimental",
+]
+
+"Generative AI" = [
+    "(Generative AI) AI / Large Language Models / Retrieval-Augmented Generation | RAG",
+    "(Generative AI) AI / Prompt Engineering",
+    "(Generative AI) AI / Agentic Workflows",
+    "(Generative AI) AI / Machine Learning / MLOps",
+    "(Generative AI) AI / Machine Learning / Model Fine-tuning",
+    "(Generative AI) AI / Machine Learning / Inference Optimisation",
+    "(Libraries) AI / LangChain",
+    "(Libraries) AI / LlamaIndex",
+    "(Libraries) AI / PyTorch",
+    "(Libraries) AI / TensorFlow",
+]
+
+"Accessibility & Internationalisation" = [
+    "(Accessibility & Internationalisation) Platform / Accessibility | A11y",
+    "Accessibility / WCAG Compliance",
+    "Accessibility / Screen Reader Support",
+    "(Accessibility & Internationalisation) Platform / Internationalisation | i18n",
+    "Internationalisation / Localisation | L10n",
+    "Internationalisation / RTL Support",
 ]
